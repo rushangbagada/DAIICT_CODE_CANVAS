@@ -1,0 +1,164 @@
+.live-sports-page {
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.hero-section {
+  text-align: center;
+  padding: 60px 20px;
+  color: #333;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.live-matches-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.live-match-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+.match-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #eee;
+}
+
+.match-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.live-indicator {
+  background-color: #f44336;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.teams-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 20px;
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+}
+
+.team-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.team-score {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.vs {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #999;
+}
+
+.match-details {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.match-time {
+  font-weight: bold;
+  color: #333;
+}
+
+.match-status {
+  color: #666;
+}
+
+.recent-events {
+  padding: 15px 20px;
+}
+
+.event {
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+}
+
+.event:last-child {
+  border-bottom: none;
+}
+
+.event-time {
+  font-weight: bold;
+  margin-right: 10px;
+  color: #666;
+  min-width: 30px;
+}
+
+.event-description {
+  color: #333;
+}
+
+.event.goal {
+  color: #2e7d32;
+}
+
+.event.yellow-card {
+  color: #f9a825;
+}
+
+.event.red-card {
+  color: #d32f2f;
+}
+
+.event.substitution {
+  color: #1976d2;
+}
+
+.loading, .no-matches {
+  text-align: center;
+  padding: 50px;
+  color: #666;
+  font-size: 1.2rem;
+}

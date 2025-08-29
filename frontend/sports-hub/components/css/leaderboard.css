@@ -1,0 +1,76 @@
+.leaderboard-page {
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.hero-section {
+  text-align: center;
+  padding: 60px 20px;
+  color: #333;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.leaderboard-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-table {
+  width: 100%;
+}
+
+.leaderboard-header {
+  display: flex;
+  font-weight: bold;
+  padding: 15px 10px;
+  border-bottom: 2px solid #eee;
+}
+
+.leaderboard-row {
+  display: flex;
+  padding: 15px 10px;
+  border-bottom: 1px solid #eee;
+  align-items: center;
+}
+
+.rank {
+  width: 15%;
+  text-align: center;
+}
+
+.player {
+  width: 60%;
+}
+
+.points {
+  width: 25%;
+  text-align: right;
+  font-weight: bold;
+}
+
+.rank-1 {
+  background-color: rgba(255, 215, 0, 0.1);
+}
+
+.rank-2 {
+  background-color: rgba(192, 192, 192, 0.1);
+}
+
+.rank-3 {
+  background-color: rgba(205, 127, 50, 0.1);
+}
+
+.no-data {
+  text-align: center;
+  padding: 30px;
+  color: #666;
+}

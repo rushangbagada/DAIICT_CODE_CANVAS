@@ -1,0 +1,220 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f9fafb;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.calendar-header {
+  background: linear-gradient(to right, #2563eb, #16a34a);
+  color: white;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.calendar-header .icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.calendar-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.month-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  border-radius: 0.25rem;
+}
+
+.sport-filter select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.day-label {
+  font-weight: bold;
+  text-align: center;
+  padding: 0.5rem;
+  background-color: #f3f4f6;
+  border-radius: 0.25rem;
+}
+
+.day-cell {
+  min-height: 100px;
+  padding: 0.5rem;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.25rem;
+}
+
+.day-cell.empty {
+  background: transparent;
+  border: none;
+}
+
+.sidebar {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.events-box, .legend-box {
+  flex: 1;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.event-list li, .legend-list li {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.legend {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.legend.football {
+  background: linear-gradient(to right, #1d4ed8, #3b82f6);
+}
+
+.legend.basketball {
+  background: linear-gradient(to right, #f59e0b, #f97316);
+}
+
+.legend.tennis {
+  background: linear-gradient(to right, #10b981, #22c55e);
+}
+
+.calendar-container {
+  height: 100vh;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.day-labels {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.calendar-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.day-cell {
+  border: 1px solid #ccc;
+  min-height: 70px;
+  padding: 0.25rem;
+  position: relative;
+  text-align: center;
+}
+
+.day-cell.today {
+  background: #e0f7fa;
+  border: 2px solid #00796b;
+}
+
+.day-cell.dimmed {
+  color: #aaa;
+  background-color: #f9f9f9;
+}
+
+.month-label {
+  font-size: 0.7rem;
+  color: #999;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+}
+
+.event-dot {
+  font-size: 12px;
+  margin-top: 3px;
+  color: red;
+}
+
+.event-dot-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.event-dot-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.event-dot {
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.tooltip {
+  visibility: hidden;
+  width: 160px;
+  background-color: #222;
+  color: #fff;
+  text-align: left;
+  border-radius: 4px;
+  padding: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; 
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.event-dot-wrapper:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
