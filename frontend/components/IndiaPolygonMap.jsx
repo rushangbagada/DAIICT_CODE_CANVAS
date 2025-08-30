@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { MapContainer, TileLayer, useMapEvents, Polygon, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -6,7 +6,7 @@ import 'leaflet/dist/leaflet.css';
 // Fix default icon paths for Leaflet when bundling
 import iconUrl from 'leaflet/dist/images/marker-icon.png';
 import iconShadowUrl from 'leaflet/dist/images/marker-shadow.png';
-
+//o
 const DefaultIcon = L.icon({
   iconUrl,
   shadowUrl: iconShadowUrl,
@@ -144,10 +144,10 @@ const preStyle = {
   border: '1px solid #1f2937',
 };
 
-const errorStyle = {
-  background: '#fef2f2',
-  color: '#991b1b',
-  padding: 8,
-  borderRadius: 6,
-  border: '1px solid #fecaca',
-};
+// const errorStyle = {
+//   background: '#fef2f2',
+//   color: '#991b1b',
+//   padding: 8,
+//   borderRadius: 6,
+//   border: '1px solid #fecaca',
+// };
