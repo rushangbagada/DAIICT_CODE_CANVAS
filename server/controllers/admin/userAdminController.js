@@ -1,6 +1,6 @@
 // User management controller for Green Hydrogen admin
 const User = require('../../models/User');
-
+//hello
 // Get all users
 exports.getAllUsers = async (req, res) => {
   try {
