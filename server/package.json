@@ -1,21 +1,15 @@
 {
-  "name": "server",
+  "name": "sports-hub-auth-server",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js",
-    "init-all": "node init_all.js",
-    "init-clubs": "node init_club.js",
-    "init-matches": "node init_match.js",
-    "init-upcoming": "node init_old_match.js",
-    "init-reviews": "node init_review.js",
-    "create-admin": "node createAdmin.js"
+    "start": "node server.js"
   },
-  "keywords": [],
+  "keywords": ["authentication", "sports-hub", "nodejs", "express"],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Authentication server for Sports Hub application",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
