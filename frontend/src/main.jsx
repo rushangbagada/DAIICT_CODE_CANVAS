@@ -15,6 +15,7 @@ import ChatBot from '../components/ChatBot'
 import IndiaPolygonMap from '../components/IndiaPolygonMap'
 import HydrogenPlantsMap from '../components/HydrogenPlantsMap'
 import GreenHydrogenHomepage from '../components/GreenHydrogenHomepage'
+import AdminDashboard from '../components/AdminDashboard'
 
 // Single source of truth for all routing - using React Router DOM v6+ createBrowserRouter
 const router = createBrowserRouter([
@@ -30,7 +31,6 @@ const router = createBrowserRouter([
       { path: '/reset-password', element: <ResetPassword /> },
       { path: '/chatbot', element: <ChatBot /> },
       { path: '/india-map', element: <IndiaPolygonMap /> },
-      { path: '/hydrogen-plants', element: <HydrogenPlantsMap /> },
       { path: '/green-hydrogen', element: <GreenHydrogenHomepage /> },
     ]
   },
