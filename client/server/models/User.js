@@ -42,10 +42,9 @@ const userSchema = new mongoose.Schema({
       'Other'
     ]
   },
-  role: {
-    type: String,
-    enum: ['user', 'admin', 'super_admin'],
-    default: 'user'
+  isAdmin: {
+    type: Boolean,
+    default: false
   },
   permissions: {
     canViewUsers: { type: Boolean, default: false },

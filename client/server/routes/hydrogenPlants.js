@@ -89,7 +89,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', auth, async (req, res) => {
   try {
     // Check if user is admin
-    if (req.user.role !== 'admin' && req.user.role !== 'super_admin') {
+    if (!req.user.isAdmin) {
       return res.status(403).json({ error: 'Access denied. Admin privileges required.' });
     }
     
@@ -108,7 +108,7 @@ router.post('/', auth, async (req, res) => {
 router.put('/:id', auth, async (req, res) => {
   try {
     // Check if user is admin
-    if (req.user.role !== 'admin' && req.user.role !== 'super_admin') {
+    if (!req.user.isAdmin) {
       return res.status(403).json({ error: 'Access denied. Admin privileges required.' });
     }
     
@@ -133,7 +133,7 @@ router.put('/:id', auth, async (req, res) => {
 router.delete('/:id', auth, async (req, res) => {
   try {
     // Check if user is admin
-    if (req.user.role !== 'admin' && req.user.role !== 'super_admin') {
+    if (!req.user.isAdmin) {
       return res.status(403).json({ error: 'Access denied. Admin privileges required.' });
     }
     

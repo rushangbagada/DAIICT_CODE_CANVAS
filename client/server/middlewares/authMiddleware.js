@@ -8,14 +8,15 @@ exports.protect = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     
-    // Fetch full user data
-    const user = await User.findById(decoded.id).select('-password');
+    // Fetch full user data  
+    const userId = decoded.userId || decoded.id;
+    const user = await User.findById(userId).select('-password');
     if (!user) {
       return res.status(401).json({ message: "User not found" });
     }
     
     req.user = user;
-    req.userId = decoded.id;
+    req.userId = userId;
     next();
   } catch (error) {
     console.error('Auth middleware error:', error);
