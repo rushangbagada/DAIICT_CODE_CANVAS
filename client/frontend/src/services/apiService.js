@@ -201,7 +201,8 @@ export const adminAPI = {
   getUsers: async (filters = {}) => {
     try {
       const params = new URLSearchParams();
-      if (filters.role) params.append('role', filters.role);
+      // Role field no longer exists, using isAdmin field instead
+      if (filters.isAdmin !== undefined) params.append('isAdmin', filters.isAdmin);
       if (filters.department) params.append('department', filters.department);
       if (filters.isActive !== undefined) params.append('isActive', filters.isActive);
       if (filters.limit) params.append('limit', filters.limit);
@@ -309,7 +310,7 @@ export const apiUtils = {
 
   // Check if user has admin access
   isAdmin: (user) => {
-    return user && (user.role === 'admin' || user.role === 'super_admin');
+    return user && user.isAdmin === true;
   }
 };
 

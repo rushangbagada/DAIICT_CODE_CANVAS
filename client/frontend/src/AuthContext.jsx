@@ -17,8 +17,26 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Check for existing token and user data on app load
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem('authToken') || localStorage.getItem('token');
     const storedUser = localStorage.getItem('user');
+    
+    // Migration check: Clear old user data if it has role field instead of isAdmin
+    if (storedUser) {
+      try {
+        const userData = JSON.parse(storedUser);
+        if ('role' in userData && !('isAdmin' in userData)) {
+          console.log('🔄 Detected old user data format, clearing localStorage for migration...');
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          setLoading(false);
+          return;
+        }
+      } catch (error) {
+        console.error('Error parsing stored user data:', error);
+        localStorage.removeItem('user');
+      }
+    }
     
     if (storedToken && storedUser) {
       setToken(storedToken);
@@ -31,13 +49,15 @@ export const AuthProvider = ({ children }) => {
   const login = (userData, authToken) => {
     setUser(userData);
     setToken(authToken);
-    localStorage.setItem('token', authToken);
+    localStorage.setItem('authToken', authToken);
+    localStorage.setItem('token', authToken); // Keep both for compatibility
     localStorage.setItem('user', JSON.stringify(userData));
   };
 
   const logout = () => {
     setUser(null);
     setToken(null);
+    localStorage.removeItem('authToken');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
   };

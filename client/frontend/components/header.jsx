@@ -58,7 +58,7 @@ export default function Header() {
                         <p>{user?.department} • {user?.year}</p>
                       </div>
                       <div className="user-menu-actions">
-                        {(user?.role === 'admin' || user?.role === 'club_leader') && (
+                        {user?.isAdmin && (
                           <Link to="/admin" className="admin-btn">
                             ⚙️ Admin Dashboard
                           </Link>
@@ -95,7 +95,7 @@ export default function Header() {
                   <p>{user?.email}</p>
                   <p>{user?.department} • {user?.year}</p>
                 </div>
-                {(user?.role === 'admin' || user?.role === 'club_leader') && (
+                {user?.isAdmin && (
                   <Link to="/admin" className="mobile-admin-btn">
                     ⚙️ Admin Dashboard
                   </Link>

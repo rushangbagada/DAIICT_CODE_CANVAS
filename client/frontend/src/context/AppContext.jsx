@@ -478,15 +478,13 @@ export const AppProvider = ({ children }) => {
   const isAdmin = useCallback(() => apiService.utils.isAdmin(state.user), [state.user]);
   const canManagePlants = useCallback(() => {
     return state.user && (
-      state.user.role === 'admin' || 
-      state.user.role === 'super_admin' ||
+      state.user.isAdmin === true ||
       state.user.permissions?.canManagePlants
     );
   }, [state.user]);
   const canManageUsers = useCallback(() => {
     return state.user && (
-      state.user.role === 'admin' || 
-      state.user.role === 'super_admin' ||
+      state.user.isAdmin === true ||
       state.user.permissions?.canManageUsers
     );
   }, [state.user]);

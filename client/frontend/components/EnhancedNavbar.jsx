@@ -430,11 +430,12 @@ const EnhancedNavbar = () => {
                     </div>
                     <div className="dropdown-divider"></div>
                     <div className="dropdown-actions">
-                      {/* Show Admin Dashboard for all authenticated users since role is removed */}
-                      <Link to="/admin" className="dropdown-item admin-item">
-                        <span className="item-icon">⚙</span>
-                        Admin Dashboard
-                      </Link>
+                      {user?.isAdmin && (
+                        <Link to="/admin" className="dropdown-item admin-item">
+                          <span className="item-icon">⚙️</span>
+                          Admin Dashboard
+                        </Link>
+                      )}
                       <button onClick={handleLogout} className="dropdown-item logout-item">
                         <span className="item-icon">🚪</span>
                         Logout
@@ -545,13 +546,13 @@ const EnhancedNavbar = () => {
                   <span>{user?.department} • {user?.year}</span>
                 </div>
               </div>
-              {(user?.role === 'admin' || user?.role === 'club_leader') && (
+              {user?.isAdmin && (
                 <Link 
                   to="/admin" 
                   className="mobile-nav-link admin-link"
                   onClick={closeMobileMenu}
                 >
-                  <span className="mobile-icon">⚙</span>
+                  <span className="mobile-icon">⚙️</span>
                   <span>Admin Dashboard</span>
                 </Link>
               )}

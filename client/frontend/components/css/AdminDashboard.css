@@ -888,3 +888,52 @@
     flex-direction: column;
   }
 }
+
+/* Chart Container Styles */
+.chart-container {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  padding: 1rem;
+  border: 1px solid rgba(57, 255, 20, 0.1);
+}
+
+/* Recharts customization */
+.recharts-tooltip-wrapper {
+  background: var(--card-bg) !important;
+  border: 1px solid rgba(57, 255, 20, 0.3) !important;
+  border-radius: 10px !important;
+  box-shadow: var(--shadow-medium) !important;
+}
+
+.recharts-default-tooltip {
+  background: var(--card-bg) !important;
+  border: 1px solid rgba(57, 255, 20, 0.3) !important;
+  border-radius: 8px !important;
+  color: var(--white) !important;
+}
+
+.recharts-tooltip-item {
+  color: var(--white) !important;
+}
+
+.recharts-tooltip-label {
+  color: var(--primary-green) !important;
+  font-weight: 600 !important;
+}
+
+.recharts-legend-wrapper {
+  color: var(--white) !important;
+}
+
+.recharts-legend-item-text {
+  color: var(--white) !important;
+}
+
+.recharts-cartesian-axis-tick-value {
+  fill: #c0c0c0 !important;
+  font-size: 0.85rem !important;
+}
+
+.recharts-cartesian-grid line {
+  stroke: rgba(57, 255, 20, 0.1) !important;
+}
