@@ -14,6 +14,7 @@ import NotFound from '../components/NotFound'
 import ChatBot from '../components/ChatBot'
 import IndiaPolygonMap from '../components/IndiaPolygonMap'
 import GreenHydrogenHomepage from '../components/GreenHydrogenHomepage'
+import AdminDashboard from '../components/AdminDashboard'
 
 // Single source of truth for all routing - using React Router DOM v6+ createBrowserRouter
 const router = createBrowserRouter([
@@ -27,9 +28,10 @@ const router = createBrowserRouter([
       { path: '/login', element: <Login /> },
       { path: '/otp-verification', element: <OTPVerification /> },
       { path: '/reset-password', element: <ResetPassword /> },
-      { path: '/chatbot', element: <ChatBot /> },
-      { path: '/india-map', element: <IndiaPolygonMap /> },
-      { path: '/green-hydrogen', element: <GreenHydrogenHomepage /> },
+  { path: '/chatbot', element: <ChatBot /> },
+  { path: '/india-map', element: <IndiaPolygonMap /> },
+  { path: '/green-hydrogen', element: <GreenHydrogenHomepage /> },
+  { path: '/admin', element: <AdminDashboard /> },
     ]
   },
 ])

@@ -13,16 +13,7 @@ const userSchema = new mongoose.Schema({
   department: {
     type: String
   },
-  role: {
-    type: String,
-    enum: ['user', 'club_leader', 'admin'],
-    default: 'user'
-  },
-  club: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Club',
-    default: null
-  },
+  // Removed role and club for green hydrogen admin redesign
   isActive: {
     type: Boolean,
     default: true
