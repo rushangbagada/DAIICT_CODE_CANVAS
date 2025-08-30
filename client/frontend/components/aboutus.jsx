@@ -14,56 +14,32 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ExcellenceIcon = () => (
   <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="radiumGreenGradient" x1="0" y1="0" x2="1" y2="1"> // Note: ID is reused, which is valid.
-        <stop offset="0%" stopColor="#6ee7b7" />
-        <stop offset="100%" stopColor="#10b981" />
-      </linearGradient>
-    </defs>
-    <rect width="24" height="24" rx="6" fill="url(#radiumGreenGradient)" />
-    <path d="M12 2.5C6.75 2.5 2.5 6.75 2.5 12s4.25 9.5 9.5 9.5s9.5-4.25 9.5-9.5S17.25 2.5 12 2.5ZM12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8Z" fill="white" opacity="0.3"/>
-    <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6s6-2.69 6-6s-2.69-6-6-6Zm-1 11h-1v-4h1v4Zm4-3h-1v-2h-2v2h-1v-2h-1v-2h1V8h1v2h2V8h1v2h-1v3Z" fill="white"/>
+    <rect width="24" height="24" rx="6" fill="#000000" />
+    <path d="M12 2.5C6.75 2.5 2.5 6.75 2.5 12s4.25 9.5 9.5 9.5s9.5-4.25 9.5-9.5S17.25 2.5 12 2.5ZM12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8Z" fill="#39ff14" opacity="0.3"/>
+    <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6s6-2.69 6-6s-2.69-6-6-6Zm-1 11h-1v-4h1v4Zm4-3h-1v-2h-2v2h-1v-2h-1v-2h1V8h1v2h2V8h1v2h-1v3Z" fill="#39ff14"/>
   </svg>
 );
 
 const TeamworkIcon = () => (
     <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <linearGradient id="radiumGreenGradient" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#6ee7b7" />
-                <stop offset="100%" stopColor="#10b981" />
-            </linearGradient>
-        </defs>
-        <rect width="24" height="24" rx="6" fill="url(#radiumGreenGradient)" />
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2.71 14.29c-.39.39-1.02.39-1.41 0l-1.42-1.42c-.39-.39-.39-1.02 0-1.41L12 8.41l4.54 4.54c.39.39.39 1.02 0 1.41l-1.42 1.42c-.39.39-1.02.39-1.41 0L12 14.17l-2.71 2.12z" fill="white" transform="rotate(45 12 12)"/>
-        <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z" fill="white" opacity="0.3"/>
+        <rect width="24" height="24" rx="6" fill="#000000" />
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2.71 14.29c-.39.39-1.02.39-1.41 0l-1.42-1.42c-.39-.39-.39-1.02 0-1.41L12 8.41l4.54 4.54c.39.39.39 1.02 0 1.41l-1.42 1.42c-.39.39-1.02.39-1.41 0L12 14.17l-2.71 2.12z" fill="#39ff14" transform="rotate(45 12 12)"/>
+        <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z" fill="#39ff14" opacity="0.3"/>
     </svg>
 );
 
 const DedicationIcon = () => (
     <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <linearGradient id="radiumGreenGradient" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#6ee7b7" />
-                <stop offset="100%" stopColor="#10b981" />
-            </linearGradient>
-        </defs>
-        <rect width="24" height="24" rx="6" fill="url(#radiumGreenGradient)" />
-        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" fill="white"/>
+        <rect width="24" height="24" rx="6" fill="#000000" />
+        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" fill="#39ff14"/>
     </svg>
 );
 
 const PassionIcon = () => (
     <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <linearGradient id="radiumGreenGradient" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#6ee7b7" />
-                <stop offset="100%" stopColor="#10b981" />
-            </linearGradient>
-        </defs>
-        <rect width="24" height="24" rx="6" fill="url(#radiumGreenGradient)" />
-        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="white"/>
-        <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z" fill="white" opacity="0.3"/>
+        <rect width="24" height="24" rx="6" fill="#000000" />
+        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="#39ff14"/>
+        <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z" fill="#39ff14" opacity="0.3"/>
     </svg>
 );
 
@@ -119,6 +95,88 @@ const CollaborationIcon = () => (
     </svg>
 );
 
+// 3D Background Component
+const ThreeDBackground = () => {
+  const mountRef = useRef(null);
+
+  useEffect(() => {
+    if (!mountRef.current) return;
+
+    // Scene setup
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
+    mountRef.current.appendChild(renderer.domElement);
+
+    // Create floating geometric shapes
+    const geometry = new THREE.SphereGeometry(0.5, 8, 8);
+    const material = new THREE.MeshBasicMaterial({ 
+      color: 0x39ff14, 
+      transparent: true, 
+      opacity: 0.1,
+      wireframe: true 
+    });
+
+    const shapes = [];
+    for (let i = 0; i < 15; i++) {
+      const shape = new THREE.Mesh(geometry, material);
+      shape.position.x = (Math.random() - 0.5) * 20;
+      shape.position.y = (Math.random() - 0.5) * 20;
+      shape.position.z = (Math.random() - 0.5) * 20;
+      shape.rotationSpeed = {
+        x: (Math.random() - 0.5) * 0.02,
+        y: (Math.random() - 0.5) * 0.02,
+        z: (Math.random() - 0.5) * 0.02
+      };
+      shapes.push(shape);
+      scene.add(shape);
+    }
+
+    camera.position.z = 10;
+
+    // Animation loop
+    const animate = () => {
+      requestAnimationFrame(animate);
+      
+      shapes.forEach(shape => {
+        shape.rotation.x += shape.rotationSpeed.x;
+        shape.rotation.y += shape.rotationSpeed.y;
+        shape.rotation.z += shape.rotationSpeed.z;
+        
+        // Floating motion
+        shape.position.y += Math.sin(Date.now() * 0.001 + shape.position.x) * 0.01;
+      });
+      
+      renderer.render(scene, camera);
+    };
+    
+    animate();
+
+    // Handle resize
+    const handleResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+    
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (mountRef.current && renderer.domElement) {
+        mountRef.current.removeChild(renderer.domElement);
+      }
+      renderer.dispose();
+    };
+  }, []);
+
+  return <div ref={mountRef} className="three-d-background" />;
+};
+
 // Animated Counter Component (from GreenHydrogenHomepage)
 const AnimatedCounter = ({ target, duration = 2000, label, symbol = "" }) => {
   const [count, setCount] = useState(0);
@@ -166,6 +224,7 @@ const AboutUs = () => {
   const metricsRef = useRef(null);
   const testimonialsRef = useRef(null);
   const contactRef = useRef(null);
+  const [missionProgress, setMissionProgress] = useState(0);
 
   useEffect(() => {
     // Hero section animations
@@ -217,18 +276,55 @@ const AboutUs = () => {
       }
     );
 
+    // Parallax scrolling effects
+    gsap.to('.parallax-slow', {
+      yPercent: -50,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".green-hydrogen-homepage",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    gsap.to('.parallax-medium', {
+      yPercent: -30,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".green-hydrogen-homepage",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    gsap.to('.parallax-fast', {
+      yPercent: -20,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".green-hydrogen-homepage",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
   }, []);
 
   return (
     <div className="green-hydrogen-homepage">
+      {/* 3D Background */}
+      <ThreeDBackground />
+      
       {/* Enhanced Navigation */}
       <EnhancedNavbar />
 
       {/* Hero Section */}
       <section id="home" className="hero-section" ref={heroRef}>
         <div className="hero-background">
-          <div className="gradient-overlay"></div>
-          <div className="particle-field"></div>
+          <div className="gradient-overlay parallax-slow"></div>
+          <div className="particle-field parallax-medium"></div>
         </div>
         <div className="hero-content">
           <div className="hero-text">
@@ -312,6 +408,104 @@ const AboutUs = () => {
             <AnimatedCounter target={1.2} label="Tons of CO2 Reduced Annually" symbol="M+" />
             <AnimatedCounter target={15} label="Active R&D Projects" symbol="+" />
             <AnimatedCounter target={10} label="Years of Innovation" symbol="+" />
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="team-section">
+        <div className="container">
+          <h2 className="section-title">Meet Our Team</h2>
+          <p className="lead">The brilliant minds driving the hydrogen revolution.</p>
+          <div className="team-grid">
+            <div className="team-card" data-member="ceo">
+              <div className="team-card-inner">
+                <div className="team-card-front">
+                  <img src="https://images.pexels.com/photos/2381069/pexels-photo-2381069.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Sarah Chen" />
+                  <h3>Sarah Chen</h3>
+                  <p className="role">CEO & Co-Founder</p>
+                  <div className="skill-tags">
+                    <span className="skill-tag">Leadership</span>
+                    <span className="skill-tag">Strategy</span>
+                  </div>
+                </div>
+                <div className="team-card-back">
+                  <h3>Sarah Chen</h3>
+                  <p>20+ years in renewable energy. Former Tesla VP. MIT PhD in Chemical Engineering.</p>
+                  <div className="achievements">
+                    <div className="achievement">🏆 Clean Energy Pioneer 2023</div>
+                    <div className="achievement">📚 50+ Research Papers</div>
+                    <div className="achievement">💡 15 Patents</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="team-card" data-member="cto">
+              <div className="team-card-inner">
+                <div className="team-card-front">
+                  <img src="https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Marcus Rodriguez" />
+                  <h3>Marcus Rodriguez</h3>
+                  <p className="role">CTO & Co-Founder</p>
+                  <div className="skill-tags">
+                    <span className="skill-tag">Innovation</span>
+                    <span className="skill-tag">R&D</span>
+                  </div>
+                </div>
+                <div className="team-card-back">
+                  <h3>Marcus Rodriguez</h3>
+                  <p>Former SpaceX engineer. Pioneering hydrogen fuel cell technology. Stanford PhD in Aerospace.</p>
+                  <div className="achievements">
+                    <div className="achievement">🚀 Ex-SpaceX Senior Engineer</div>
+                    <div className="achievement">⚡ Fuel Cell Expert</div>
+                    <div className="achievement">🔬 20+ Patents</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="team-card" data-member="coo">
+              <div className="team-card-inner">
+                <div className="team-card-front">
+                  <img src="https://images.pexels.com/photos/3778876/pexels-photo-3778876.jpeg?auto=compress&cs=tinysrgb&w=400" alt="David Kim" />
+                  <h3>David Kim</h3>
+                  <p className="role">COO</p>
+                  <div className="skill-tags">
+                    <span className="skill-tag">Operations</span>
+                    <span className="skill-tag">Scale</span>
+                  </div>
+                </div>
+                <div className="team-card-back">
+                  <h3>David Kim</h3>
+                  <p>Industrial scaling expert. Former Amazon Operations VP. Berkeley MBA in Operations.</p>
+                  <div className="achievements">
+                    <div className="achievement">📈 Scaled 10+ Facilities</div>
+                    <div className="achievement">🏭 Ex-Amazon VP</div>
+                    <div className="achievement">💼 15 Years Experience</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="team-card" data-member="cso">
+              <div className="team-card-inner">
+                <div className="team-card-front">
+                  <img src="https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Emma Thompson" />
+                  <h3>Emma Thompson</h3>
+                  <p className="role">Chief Sustainability Officer</p>
+                  <div className="skill-tags">
+                    <span className="skill-tag">Sustainability</span>
+                    <span className="skill-tag">ESG</span>
+                  </div>
+                </div>
+                <div className="team-card-back">
+                  <h3>Emma Thompson</h3>
+                  <p>Global sustainability advocate. Former UN Climate advisor. Harvard PhD in Environmental Science.</p>
+                  <div className="achievements">
+                    <div className="achievement">🌍 Ex-UN Climate Advisor</div>
+                    <div className="achievement">📖 Climate Policy Expert</div>
+                    <div className="achievement">🌱 Carbon Neutral Champion</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
