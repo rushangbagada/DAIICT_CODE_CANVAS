@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../AuthContext';
+import { useAuth } from '../src/AuthContext';
 
 // Protected Route Component for authentication-required pages
 export const ProtectedRoute = ({ children }) => {

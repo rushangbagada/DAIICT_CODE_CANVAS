@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../src/AuthContext';
 import './css/header.css';
-
+import ChatBot from './ChatBot';
 export default function Header() {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
@@ -42,6 +42,8 @@ export default function Header() {
               <Link to="/" className="nav-link active">🏆 Home</Link>
              
               <Link to="/aboutus" className="nav-link">ℹ️ About</Link>
+              <Link to="/india-map" className="nav-link">🗺️ India Map</Link>
+              <Link to="/chatbot" className="nav-link">💬 ChatBot</Link>
               
               {isAuthenticated() ? (
                 <div className="user-menu-container">
@@ -69,7 +71,10 @@ export default function Header() {
                   )}
                 </div>
               ) : (
-                <Link to="/login" className="nav-link">🔑 Login</Link>
+                <>
+                  <Link to="/login" className="nav-link">🔑 Login</Link>
+                  <Link to="/register" className="nav-link">👤 Register</Link>
+                </>
               )}
             </nav>
 
@@ -80,6 +85,8 @@ export default function Header() {
             <Link to="/" className="nav-link active">🏆 Home</Link>
            
             <Link to="/aboutus" className="nav-link">ℹ️ About</Link>
+            <Link to="/india-map" className="nav-link">🗺️ India Map</Link>
+            <Link to="/chatbot" className="nav-link">💬 ChatBot</Link>
             
             {isAuthenticated() ? (
               <div className="mobile-user-info">
@@ -98,7 +105,10 @@ export default function Header() {
                 </button>
               </div>
             ) : (
-              <Link to="/login" className="nav-link">🔑 Login</Link>
+              <>
+                <Link to="/login" className="nav-link">🔑 Login</Link>
+                <Link to="/register" className="nav-link">👤 Register</Link>
+              </>
             )}
           </div>
         </div>
