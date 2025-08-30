@@ -47,6 +47,12 @@ class SiteRecommendation(BaseModel):
     predicted_score: Optional[float] = Field(None, description="ML-predicted site score")
     site_id: Optional[str] = Field(None, description="Unique site identifier")
     
+    # Location information from reverse geocoding
+    city: Optional[str] = Field(None, description="City name")
+    state: Optional[str] = Field(None, description="State/Province name")
+    district: Optional[str] = Field(None, description="District/County name")
+    display_name: Optional[str] = Field(None, description="Full address/display name")
+    
     class Config:
         schema_extra = {
             "example": {
@@ -58,7 +64,11 @@ class SiteRecommendation(BaseModel):
                 "water_availability": 65.8,
                 "land_cost": 45.2,
                 "predicted_score": 0.87,
-                "site_id": "site_0001"
+                "site_id": "site_0001",
+                "city": "Bhopal",
+                "state": "Madhya Pradesh",
+                "district": "Bhopal",
+                "display_name": "Bhopal, Madhya Pradesh, India"
             }
         }
 

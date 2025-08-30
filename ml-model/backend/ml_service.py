@@ -7,6 +7,7 @@ import time
 import joblib
 import pandas as pd
 import numpy as np
+import requests
 from shapely.geometry import Point, Polygon
 from typing import List, Tuple, Optional, Dict, Any
 import logging
@@ -199,6 +200,101 @@ class MLService:
             "parameters": settings.MODEL_PARAMS,
             "geographic_bounds": settings.INDIA_BOUNDS
         }
+
+    def reverse_geocode(self, lat: float, lon: float) -> Dict[str, str]:
+        """
+        Convert coordinates to location name using OpenStreetMap Nominatim
+        Returns: {"display_name": "Full address", "city": "City name", "state": "State name"}
+        """
+        try:
+            # Nominatim API endpoint
+            url = "https://nominatim.openstreetmap.org/reverse"
+            params = {
+                "lat": lat,
+                "lon": lon,
+                "format": "json",
+                "addressdetails": 1,
+                "accept-language": "en"
+            }
+            
+            # Add user agent header (required by Nominatim)
+            headers = {
+                "User-Agent": "HydrogenSiteRecommender/1.0"
+            }
+            
+            response = requests.get(url, params=params, headers=headers, timeout=settings.GEOCODING_TIMEOUT)
+            response.raise_for_status()
+            
+            data = response.json()
+            
+            # Extract location information
+            address = data.get("address", {})
+            
+            location_info = {
+                "display_name": data.get("display_name", "Unknown location"),
+                "city": address.get("city") or address.get("town") or address.get("village") or "Unknown city",
+                "state": address.get("state") or "Unknown state",
+                "country": address.get("country") or "Unknown country",
+                "postcode": address.get("postcode") or "",
+                "district": address.get("district") or address.get("county") or ""
+            }
+            
+            logger.info(f"Reverse geocoded {lat}, {lon} to {location_info['city']}, {location_info['state']}")
+            return location_info
+            
+        except Exception as e:
+            logger.warning(f"Reverse geocoding failed for {lat}, {lon}: {e}")
+            return {
+                "display_name": f"Location at {lat:.4f}, {lon:.4f}",
+                "city": "Unknown city",
+                "state": "Unknown state",
+                "country": "Unknown country",
+                "postcode": "",
+                "district": ""
+            }
+    
+    def add_location_names_to_sites(self, sites_df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Add location names to sites dataframe using reverse geocoding
+        """
+        try:
+            if not settings.ENABLE_REVERSE_GEOCODING:
+                logger.info("Reverse geocoding is disabled in configuration")
+                return sites_df
+                
+            if sites_df.empty:
+                return sites_df
+                
+            sites_df = sites_df.copy()
+            
+            # Add location columns
+            sites_df["city"] = ""
+            sites_df["state"] = ""
+            sites_df["display_name"] = ""
+            sites_df["district"] = ""
+            
+            # Process each site (with rate limiting to respect Nominatim's terms)
+            for idx, row in sites_df.iterrows():
+                lat, lon = row["lat"], row["lon"]
+                
+                # Get location info
+                location_info = self.reverse_geocode(lat, lon)
+                
+                # Update dataframe
+                sites_df.at[idx, "city"] = location_info["city"]
+                sites_df.at[idx, "state"] = location_info["state"]
+                sites_df.at[idx, "display_name"] = location_info["display_name"]
+                sites_df.at[idx, "district"] = location_info["district"]
+                
+                # Rate limiting: Nominatim allows max 1 request per second
+                time.sleep(settings.GEOCODING_RATE_LIMIT)
+            
+            logger.info(f"Added location names to {len(sites_df)} sites")
+            return sites_df
+            
+        except Exception as e:
+            logger.error(f"Error adding location names: {e}")
+            return sites_df
 
 # Global ML service instance
 ml_service = MLService()

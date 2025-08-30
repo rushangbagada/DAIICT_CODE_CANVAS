@@ -60,6 +60,11 @@ class Settings:
     MAX_RECOMMENDATIONS: int = 10
     MIN_POLYGON_POINTS: int = 3
     
+    # Reverse Geocoding Configuration
+    ENABLE_REVERSE_GEOCODING: bool = True
+    GEOCODING_TIMEOUT: int = 10  # seconds
+    GEOCODING_RATE_LIMIT: float = 1.0  # seconds between requests
+    
     # Logging Configuration
     LOG_LEVEL: str = "INFO"
     LOG_FORMAT: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

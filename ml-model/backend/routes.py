@@ -99,6 +99,9 @@ async def recommend_sites(
             # No sites in polygon, return nearest sites
             nearest_sites = ml_service_instance.get_nearest_sites(request.polygon_points)
             
+            # Add location names to nearest sites
+            nearest_sites_with_locations = ml_service_instance.add_location_names_to_sites(nearest_sites)
+            
             # Convert to response format
             recommended_sites = [
                 SiteRecommendation(
@@ -110,8 +113,12 @@ async def recommend_sites(
                     water_availability=site.get("water_availability"),
                     land_cost=site.get("land_cost"),
                     predicted_score=site.get("site_score"),
-                    site_id=site.get("site_id")
-                ) for _, site in nearest_sites.iterrows()
+                    site_id=site.get("site_id"),
+                    city=site.get("city"),
+                    state=site.get("state"),
+                    district=site.get("district"),
+                    display_name=site.get("display_name")
+                ) for _, site in nearest_sites_with_locations.iterrows()
             ]
             
             return MLResponse(
@@ -134,6 +141,9 @@ async def recommend_sites(
         # Get top recommendations
         top_sites = scored_sites.head(settings.MAX_RECOMMENDATIONS)
         
+        # Add location names to sites
+        top_sites_with_locations = ml_service_instance.add_location_names_to_sites(top_sites)
+        
         # Convert to response format
         recommended_sites = [
             SiteRecommendation(
@@ -145,8 +155,12 @@ async def recommend_sites(
                 water_availability=site.get("water_availability"),
                 land_cost=site.get("land_cost"),
                 predicted_score=site.get("predicted_score"),
-                site_id=site.get("site_id")
-            ) for _, site in top_sites.iterrows()
+                site_id=site.get("site_id"),
+                city=site.get("city"),
+                state=site.get("state"),
+                district=site.get("district"),
+                display_name=site.get("display_name")
+            ) for _, site in top_sites_with_locations.iterrows()
         ]
         
         # Calculate polygon area

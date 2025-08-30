@@ -2,9 +2,9 @@
 
 ## 🎯 **What's New**
 
-The India Polygon Map component has been enhanced with **automatic ML analysis** that triggers when users select 3 or more points on the map. Here's how it works:
+The India Polygon Map component has been enhanced with **manual ML analysis** that users can trigger by clicking a button after selecting 3 or more points on the map. Here's how it works:
 
-## 🔄 **Automatic ML Workflow**
+## 🔄 **Manual ML Workflow**
 
 ### **1. Point Selection (0-2 points)**
 - User clicks on map to add points
@@ -12,8 +12,13 @@ The India Polygon Map component has been enhanced with **automatic ML analysis**
 - ML analysis button is hidden
 - Instructions are displayed
 
-### **2. ML Analysis Trigger (3+ points)**
-- **Automatically triggers** after 1 second delay
+### **2. ML Analysis Available (3+ points)**
+- **ML Analysis button appears** after 3+ points are selected
+- Progress shows: "3 points selected (ready for ML analysis)"
+- User must **manually click** the "🤖 Run ML Analysis" button
+- No automatic triggering - user has full control
+
+### **3. ML Analysis Execution**
 - Shows: "🤖 Processing polygon with ML model..."
 - Calls enhanced backend API: `http://localhost:8000/api/v1/recommend_sites`
 - Sends polygon coordinates in the format:
@@ -27,7 +32,7 @@ The India Polygon Map component has been enhanced with **automatic ML analysis**
   }
   ```
 
-### **3. Results Display**
+### **4. Results Display**
 - **ML Results Summary** card appears with:
   - 📊 Analysis Summary (status, sites found, processing time)
   - 📍 Polygon Analysis (area, points, message)
@@ -40,9 +45,9 @@ The India Polygon Map component has been enhanced with **automatic ML analysis**
 ```
 1. Click Map → Add Points (0-2)
    ↓
-2. Add 3rd Point → Auto-trigger ML Analysis
+2. Add 3rd Point → ML Button Appears
    ↓
-3. See Processing Status → "🤖 Processing..."
+3. Click ML Button → "🤖 Processing..."
    ↓
 4. View Results → ML Summary + Map Markers
    ↓
@@ -53,9 +58,9 @@ The India Polygon Map component has been enhanced with **automatic ML analysis**
 
 ## 🔧 **Technical Features**
 
-### **Automatic Triggers**
-- **useEffect hook** monitors point count
-- **1-second delay** prevents premature analysis
+### **Manual Triggers**
+- **ML button appears** when 3+ points are selected
+- **No automatic useEffect** - user controls when to run analysis
 - **Smart state management** prevents duplicate requests
 
 ### **Enhanced API Integration**
@@ -64,140 +69,39 @@ The India Polygon Map component has been enhanced with **automatic ML analysis**
 - **Response validation** ensures data integrity
 
 ### **Real-time Updates**
-- **Processing status** shows current ML state
-- **Results display** updates immediately
-- **Map markers** appear for recommended sites
-
-## 📊 **ML Results Display**
-
-### **Summary Cards**
-```
-┌─────────────────────────────────────┐
-│ 🤖 ML Analysis Results              │
-├─────────────────────────────────────┤
-│ 📊 Analysis Summary                 │
-│ • Status: sites_found              │
-│ • Total Sites: 15                  │
-│ • Processing Time: 45.2ms          │
-│ • Model Version: 1.0.0             │
-├─────────────────────────────────────┤
-│ 📍 Polygon Analysis                 │
-│ • Area: 12.45 km²                  │
-│ • Points: 4                        │
-│ • Message: Candidate sites found   │
-├─────────────────────────────────────┤
-│ 🏭 Top Recommendations              │
-│ • Site #1: Score 0.87              │
-│ • Site #2: Score 0.82              │
-│ • Site #3: Score 0.79              │
-└─────────────────────────────────────┘
-```
-
-### **Map Markers**
-- **Red H-markers** for hydrogen sites
-- **Detailed popups** with site information
-- **Score-based ranking** (highest scores first)
-
-## 🚨 **Error Handling**
-
-### **Network Errors**
-- "Network error: Unable to connect to ML service"
-- Auto-hides after 8 seconds
-
-### **ML Model Errors**
-- "ML Model Error: Service not found"
-- "ML Model Error: Internal server error"
-- Clear error messages with troubleshooting tips
-
-### **Validation Errors**
-- "At least 3 points are needed"
-- "Polygon is not closed"
-- Real-time validation feedback
+- **Progress indicators** show current status
+- **Dynamic button states** (enabled/disabled/processing)
+- **Auto-clear results** when polygon changes
 
 ## 🎯 **Key Benefits**
 
-### **For Users**
-- ✅ **Automatic analysis** - no manual button clicks
-- ✅ **Real-time feedback** - see processing status
-- ✅ **Rich results** - detailed site information
-- ✅ **Visual markers** - sites displayed on map
-
-### **For Developers**
-- ✅ **Clean architecture** - modular ML integration
-- ✅ **Error handling** - robust error management
-- ✅ **State management** - efficient React patterns
-- ✅ **API integration** - enhanced backend communication
-
-## 🔄 **State Management**
-
-### **ML Processing States**
-```javascript
-const [isProcessingML, setIsProcessingML] = useState(false);
-const [mlProcessingStatus, setMlProcessingStatus] = useState('');
-const [mlResults, setMlResults] = useState(null);
-const [recommendedSites, setRecommendedSites] = useState([]);
-const [showMlResults, setShowMlResults] = useState(false);
-```
-
-### **Auto-trigger Logic**
-```javascript
-useEffect(() => {
-  if (points.length >= MIN_POINTS && !isProcessingML && !mlResults) {
-    const timer = setTimeout(() => {
-      runMLAnalysis();
-    }, 1000);
-    return () => clearTimeout(timer);
-  }
-}, [points.length, isProcessingML, mlResults]);
-```
+1. **User Control**: Users decide when to run ML analysis
+2. **Better UX**: No unexpected API calls while drawing
+3. **Performance**: ML analysis only runs when requested
+4. **Flexibility**: Users can adjust polygon before analysis
+5. **Clear Feedback**: Visual indicators show when ML is available
 
 ## 🚀 **Getting Started**
 
-### **1. Start Enhanced Backend**
-```bash
-cd ml-model
-python start_enhanced_backend.py
-```
+1. **Open the map** in your React application
+2. **Click on the map** to start drawing a polygon
+3. **Add at least 3 points** to enable ML analysis
+4. **Click "🤖 Run ML Analysis"** button when ready
+5. **View results** and hydrogen site recommendations
+6. **Continue drawing** or close the polygon as needed
 
-### **2. Start React Frontend**
-```bash
-cd DAIICT_CODE_CANVAS/frontend
-npm run dev
-```
+## 🔧 **Configuration**
 
-### **3. Test ML Integration**
-1. Open India Polygon Map page
-2. Click 3+ points on the map
-3. Watch automatic ML analysis trigger
-4. View results and map markers
-5. Continue drawing or store polygon
+The component automatically:
+- **Detects when 3+ points** are available
+- **Shows/hides ML button** based on point count
+- **Manages API calls** to the ML backend
+- **Handles errors** gracefully with user feedback
+- **Updates map markers** with recommended sites
 
-## 🎉 **Success Indicators**
+## 📱 **Responsive Design**
 
-- ✅ **Automatic ML trigger** when 3+ points selected
-- ✅ **Real-time processing status** displayed
-- ✅ **ML results summary** cards appear
-- ✅ **Hydrogen site markers** on map
-- ✅ **Detailed site information** in popups
-- ✅ **Error handling** with user-friendly messages
-
-## 🔧 **Troubleshooting**
-
-### **ML Analysis Not Triggering**
-- Check if backend is running on port 8000
-- Verify 3+ points are selected
-- Check browser console for errors
-
-### **No Results Displayed**
-- Ensure ML model is trained and loaded
-- Check API endpoint `/api/v1/recommend_sites`
-- Verify polygon coordinates are valid
-
-### **Map Markers Not Showing**
-- Check if `showMlResults` state is true
-- Verify `recommendedSites` array has data
-- Ensure marker coordinates are valid
-
----
-
-**Your India Polygon Map now provides an intelligent, automated ML-powered experience! 🚀**
+- **Mobile-friendly** interface
+- **Touch-optimized** controls
+- **Adaptive layouts** for different screen sizes
+- **Accessible** button states and feedback

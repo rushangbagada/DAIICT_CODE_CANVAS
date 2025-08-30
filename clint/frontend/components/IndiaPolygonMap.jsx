@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, useMapEvents, Polygon, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -29,6 +30,8 @@ function ClickHandler({ onClick, disabled }) {
 }
 
 export default function IndiaPolygonMap() {
+  const navigate = useNavigate();
+  
   // State variables
   const [points, setPoints] = useState([]);
   const [coords, setCoords] = useState([]);
@@ -39,8 +42,8 @@ export default function IndiaPolygonMap() {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [polygonName, setPolygonName] = useState('');
   const [mlResults, setMlResults] = useState(null);
-  const [showMlResults, setShowMlResults] = useState(false);
-  const [recommendedSites, setRecommendedSites] = useState([]);
+
+
   const [showExportMenu, setShowExportMenu] = useState(false);
   const [isProcessingML, setIsProcessingML] = useState(false);
   const [mlProcessingStatus, setMlProcessingStatus] = useState('');
@@ -53,17 +56,7 @@ export default function IndiaPolygonMap() {
     setCoords(points.map(p => ({ lat: +p.lat.toFixed(6), lng: +p.lng.toFixed(6) })));
   }, [points]);
 
-    // Auto-trigger ML analysis when 3+ points are selected
-  useEffect(() => {
-    if (points.length >= MIN_POINTS && !isProcessingML && !mlResults) {
-      // Small delay to allow user to finish clicking
-      const timer = setTimeout(() => {
-        runMLAnalysis();
-      }, 1000);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [points.length, isProcessingML, mlResults]);
+    // ML analysis is now only triggered by button click, not automatically
 
   const indiaCenter = useMemo(() => ({ lat: 22.9734, lng: 78.6569 }), []);
 
@@ -93,8 +86,7 @@ export default function IndiaPolygonMap() {
     setSubmitStatus(null);
     setPolygonName('');
     setMlResults(null);
-    setRecommendedSites([]);
-    setShowMlResults(false);
+
     setShowExportMenu(false);
     setIsProcessingML(false);
     setMlProcessingStatus('');
@@ -122,8 +114,7 @@ export default function IndiaPolygonMap() {
       // Clear ML results if we go below 3 points
       if (points.length <= MIN_POINTS) {
         setMlResults(null);
-        setRecommendedSites([]);
-        setShowMlResults(false);
+
       }
     }
   };
@@ -257,9 +248,8 @@ export default function IndiaPolygonMap() {
 
       // Store ML results and recommended sites for map display
       setMlResults(mlResult);
-      setRecommendedSites(mlResult.recommended_sites || []);
-      setShowMlResults(true);
 
+      
       // Success message based on results
       let successMessage = `ML Analysis completed successfully!`;
       if (mlResult.total_sites_found > 0) {
@@ -272,10 +262,16 @@ export default function IndiaPolygonMap() {
 
       setMlProcessingStatus(successMessage);
 
-      // Auto-hide success message after 5 seconds
+      // Auto-redirect to ML Results page after 2 seconds
       setTimeout(() => {
         setMlProcessingStatus('');
-      }, 5000);
+        // Navigate to ML Results page with the data
+        navigate('/ml-results', { 
+          state: { 
+            mlResults: mlResult
+          } 
+        });
+      }, 2000);
 
     } catch (error) {
       console.error('ML Processing Error:', error);
@@ -312,12 +308,13 @@ export default function IndiaPolygonMap() {
 
       // Clear any previous results on error
       setMlResults(null);
-      setRecommendedSites([]);
-      setShowMlResults(false);
+
     } finally {
       setIsProcessingML(false);
     }
   };
+
+
 
   const handleSubmit = async () => {
     const validation = validatePolygon();
@@ -387,6 +384,47 @@ export default function IndiaPolygonMap() {
 
   const canSubmit = isPolygonComplete && !isSubmitting && polygonName.trim();
 
+  // DraggableMarker component
+  const DraggableMarker = ({ position, onDragEnd, isLast, pointNumber }) => {
+    const [pos, setPos] = useState(position);
+    const eventHandlers = useMemo(() => ({
+      dragend(e) {
+        const ll = e.target.getLatLng();
+        setPos(ll);
+        onDragEnd({ lat: ll.lat, lng: ll.lng });
+      },
+    }), [onDragEnd]);
+
+    useEffect(() => setPos(position), [position]);
+
+    return (
+      <Marker 
+        position={pos} 
+        draggable={true} 
+        eventHandlers={eventHandlers}
+        icon={L.divIcon({
+          className: 'custom-marker',
+          html: `<div style="
+            width: 20px; 
+            height: 20px; 
+            background: ${isLast ? '#dc2626' : '#1d4ed8'}; 
+            border: 2px solid white; 
+            border-radius: 50%; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+          ">${pointNumber}</div>`,
+          iconSize: [20, 20],
+          iconAnchor: [10, 10]
+        })}
+      />
+    );
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: 20, maxWidth: '1200px', margin: '0 auto' }}>
       {/* Header Section */}
@@ -433,7 +471,7 @@ export default function IndiaPolygonMap() {
           <ol style={{ margin: 0, paddingLeft: '20px', color: '#4b5563' }}>
             <li>Click anywhere on the map to start drawing</li>
             <li>Continue clicking to add at least 3 points (unlimited)</li>
-            <li>ML analysis will automatically run when you have 3+ points</li>
+            <li>Click the "🤖 Run ML Analysis" button to analyze your polygon and view detailed results</li>
             <li>Use "Close Polygon" to complete the shape</li>
             <li>Drag markers to adjust positions if needed</li>
             <li>Enter a name and submit to store the polygon</li>
@@ -453,7 +491,7 @@ export default function IndiaPolygonMap() {
           />
         </div>
         <span style={progressTextStyle}>
-          {points.length} points selected {points.length < MIN_POINTS ? `(${MIN_POINTS - points.length} more needed)` : '(ready to close)'}
+          {points.length} points selected {points.length < MIN_POINTS ? `(${MIN_POINTS - points.length} more needed)` : '(ready for ML analysis & results)'}
         </span>
       </div>
 
@@ -529,62 +567,9 @@ export default function IndiaPolygonMap() {
         </div>
       </div>
 
-      {/* ML Results Summary */}
-      {showMlResults && mlResults && (
-        <div style={mlResultsStyle}>
-          <h3 style={{ margin: '0 0 16px 0', color: '#1f2937' }}>
-            🤖 ML Analysis Results
-          </h3>
-          <div style={mlResultsGridStyle}>
-            <div style={mlResultCardStyle}>
-              <h4 style={{ margin: '0 0 8px 0', color: '#374151' }}>📊 Analysis Summary</h4>
-              <p style={{ margin: '0 0 8px 0', color: '#6b7280' }}>
-                <strong>Status:</strong> {mlResults.polygon_analysis?.status || 'Completed'}
-              </p>
-              <p style={{ margin: '0 0 8px 0', color: '#6b7280' }}>
-                <strong>Total Sites Found:</strong> {mlResults.total_sites_found || 0}
-              </p>
-              <p style={{ margin: '0 0 8px 0', color: '#6b7280' }}>
-                <strong>Processing Time:</strong> {mlResults.processing_time_ms ? `${mlResults.processing_time_ms.toFixed(2)}ms` : 'N/A'}
-              </p>
-              <p style={{ margin: '0 0 8px 0', color: '#6b7280' }}>
-                <strong>Model Version:</strong> {mlResults.model_version || 'N/A'}
-              </p>
-            </div>
-            
-            <div style={mlResultCardStyle}>
-              <h4 style={{ margin: '0 0 8px 0', color: '#374151' }}>📍 Polygon Analysis</h4>
-              <p style={{ margin: '0 0 8px 0', color: '#6b7280' }}>
-                <strong>Area:</strong> {mlResults.polygon_analysis?.area_km2 || 'N/A'} km²
-              </p>
-              <p style={{ margin: '0 0 8px 0', color: '#6b7280' }}>
-                <strong>Points:</strong> {mlResults.polygon_analysis?.point_count || 0}
-              </p>
-              <p style={{ margin: '0 0 8px 0', color: '#6b7280' }}>
-                <strong>Message:</strong> {mlResults.message || 'Analysis completed'}
-              </p>
-            </div>
 
-            {recommendedSites.length > 0 && (
-              <div style={mlResultCardStyle}>
-                <h4 style={{ margin: '0 0 8px 0', color: '#374151' }}>🏭 Top Recommendations</h4>
-                <div style={recommendationsListStyle}>
-                  {recommendedSites.slice(0, 3).map((site, index) => (
-                    <div key={index} style={recommendationItemStyle}>
-                      <span style={{ fontWeight: 'bold', color: '#1f2937' }}>
-                        Site #{index + 1}
-                      </span>
-                      <span style={{ color: '#6b7280', fontSize: '12px' }}>
-                        Score: {site.predicted_score ? site.predicted_score.toFixed(3) : 'N/A'}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+
+
 
       {/* Map Container */}
       <div style={mapContainerStyle}>
@@ -636,50 +621,7 @@ export default function IndiaPolygonMap() {
             />
           )}
 
-          {/* Display recommended hydrogen sites as markers */}
-          {showMlResults && recommendedSites.map((site, index) => (
-            <Marker
-              key={`site-${index}`}
-              position={[site.lat, site.lon]}
-              icon={L.divIcon({
-                className: 'hydrogen-site-marker',
-                html: `<div style="
-                  width: 24px; 
-                  height: 24px; 
-                  background: #dc2626; 
-                  border: 3px solid white; 
-                  border-radius: 50%; 
-                  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  color: white;
-                  font-size: 11px;
-                  font-weight: bold;
-                  cursor: pointer;
-                ">H${index + 1}</div>`,
-                iconSize: [24, 24],
-                iconAnchor: [12, 12]
-              })}
-            >
-              <Popup>
-                <div style={{ minWidth: '200px' }}>
-                  <h4 style={{ margin: '0 0 8px 0', color: '#1e293b' }}>
-                    🏭 Hydrogen Site #{index + 1}
-                  </h4>
-                  <div style={{ fontSize: '14px', color: '#6b7280', lineHeight: '1.4' }}>
-                    <p><strong>Location:</strong> {site.lat?.toFixed(4)}, {site.lon?.toFixed(4)}</p>
-                    {site.capacity && <p><strong>Capacity:</strong> {site.capacity} MW</p>}
-                    {site.distance_to_renewable && <p><strong>Renewable Proximity:</strong> {site.distance_to_renewable} km</p>}
-                    {site.demand_index && <p><strong>Demand Index:</strong> {site.demand_index.toFixed(2)}</p>}
-                    {site.water_availability && <p><strong>Water Availability:</strong> {site.water_availability.toFixed(1)}%</p>}
-                    {site.land_cost && <p><strong>Land Cost:</strong> ₹{site.land_cost}k</p>}
-                    {site.predicted_score && <p><strong>ML Score:</strong> {site.predicted_score.toFixed(3)}</p>}
-                  </div>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
+
       </MapContainer>
       </div>
 
@@ -759,45 +701,7 @@ export default function IndiaPolygonMap() {
   );
 }
 
-function DraggableMarker({ position, onDragEnd, isLast, pointNumber }) {
-  const [pos, setPos] = useState(position);
-  const eventHandlers = useMemo(() => ({
-    dragend(e) {
-      const ll = e.target.getLatLng();
-      setPos(ll);
-      onDragEnd({ lat: ll.lat, lng: ll.lng });
-    },
-  }), [onDragEnd]);
 
-  useEffect(() => setPos(position), [position]);
-
-  return (
-    <Marker 
-      position={pos} 
-      draggable={true} 
-      eventHandlers={eventHandlers}
-      icon={L.divIcon({
-        className: 'custom-marker',
-        html: `<div style="
-          width: 20px; 
-          height: 20px; 
-          background: ${isLast ? '#dc2626' : '#1d4ed8'}; 
-          border: 2px solid white; 
-          border-radius: 50%; 
-          box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-size: 10px;
-          font-weight: bold;
-        ">${pointNumber}</div>`,
-        iconSize: [20, 20],
-        iconAnchor: [10, 10]
-      })}
-    />
-  );
-}
 
 // Enhanced Styles
 const headerStyle = {
@@ -898,43 +802,7 @@ const mlStatusStyle = {
   fontWeight: '500',
 };
 
-const mlResultsStyle = {
-  padding: '20px',
-  background: '#f8fafc',
-  border: '1px solid #e2e8f0',
-  borderRadius: '12px',
-  borderTop: '4px solid #10b981',
-};
 
-const mlResultsGridStyle = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-  gap: '16px',
-};
-
-const mlResultCardStyle = {
-  padding: '16px',
-  background: 'white',
-  border: '1px solid #e2e8f0',
-  borderRadius: '8px',
-  boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-};
-
-const recommendationsListStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '8px',
-};
-
-const recommendationItemStyle = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: '8px',
-  background: '#f8fafc',
-  borderRadius: '4px',
-  border: '1px solid #e2e8f0',
-};
 
 const controlsStyle = {
   display: 'flex',
