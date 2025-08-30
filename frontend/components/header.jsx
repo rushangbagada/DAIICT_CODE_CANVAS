@@ -40,14 +40,7 @@ export default function Header() {
 
             <nav className="nav-desktop">
               <Link to="/" className="nav-link active">🏆 Home</Link>
-              <Link to="/sports-clubs" className="nav-link">👥 Sports Clubs</Link>
-              <Link to="/calender" className="nav-link">🗓️ Calendar</Link>
-              <Link to="/result" className="nav-link">🏅 Results</Link>
-              <Link to="/gallery" className="nav-link">📸 Gallery</Link>
-              <Link to="/blog" className="nav-link">📝 Blog</Link>
-              <Link to="/gamepage" className="nav-link">🎮 Game</Link>
-              <Link to="/leaderboard" className="nav-link">🏆 Leaderboard</Link>
-              <Link to="/livesports" className="nav-link">📺 Live Sports</Link>
+             
               <Link to="/aboutus" className="nav-link">ℹ️ About</Link>
               
               {isAuthenticated() ? (
@@ -85,14 +78,7 @@ export default function Header() {
 
           <div className="nav-mobile" id="mobileMenu">
             <Link to="/" className="nav-link active">🏆 Home</Link>
-            <Link to="/sports-clubs" className="nav-link">👥 Sports Clubs</Link>
-            <Link to="/calender" className="nav-link">🗓️ Calendar</Link>
-            <Link to="/result" className="nav-link">🏅 Results</Link>
-            <Link to="/gallery" className="nav-link">📸 Gallery</Link>
-            <Link to="/blog" className="nav-link">📝 Blog</Link>
-            <Link to="/gamepage" className="nav-link">🎮 Game</Link>
-            <Link to="/leaderboard" className="nav-link">🏆 Leaderboard</Link>
-            <Link to="/livesports" className="nav-link">📺 Live Sports</Link>
+           
             <Link to="/aboutus" className="nav-link">ℹ️ About</Link>
             
             {isAuthenticated() ? (
