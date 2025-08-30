@@ -1,14 +1,14 @@
 
 import { Outlet } from 'react-router-dom'
-import Header from '../components/header'
-import Footer from '../components/footer'
+import EnhancedNavbar from '../components/EnhancedNavbar'
+import EnhancedFooter from '../components/EnhancedFooter'
 
 export default function Layout() {
     return (
         <>
-            <Header/>
+            <EnhancedNavbar/>
             <Outlet />
-            <Footer />
+            <EnhancedFooter />
         </>
     )
 }
