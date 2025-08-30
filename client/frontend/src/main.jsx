@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './AuthContext'
+import { AppProvider } from './context/AppContext'
 import { ProtectedRoute } from '../components/ProtectedRoute'
 import AboutUs from '../components/AboutUs'
 import Home from '../components/home'
@@ -15,6 +16,7 @@ import ChatBot from '../components/ChatBot'
 import IndiaPolygonMap from '../components/IndiaPolygonMap'
 import HydrogenPlantsMap from '../components/HydrogenPlantsMap'
 import GreenHydrogenHomepage from '../components/GreenHydrogenHomepage'
+import AdminDashboard from '../components/AdminDashboard'
 
 // Single source of truth for all routing - using React Router DOM v6+ createBrowserRouter
 const router = createBrowserRouter([
@@ -32,14 +34,29 @@ const router = createBrowserRouter([
       { path: '/india-map', element: <IndiaPolygonMap /> },
       { path: '/hydrogen-plants', element: <HydrogenPlantsMap /> },
       { path: '/green-hydrogen', element: <GreenHydrogenHomepage /> },
-    ]
+      { 
+        path: '/admin', 
+        element: (
+          <ProtectedRoute adminRequired>
+            <AdminDashboard />
+          </ProtectedRoute>
+        ) 
+      },
+    ],
+    errorElement: <NotFound />
   },
+  {
+    path: '*',
+    element: <NotFound />
+  }
 ])
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <AppProvider>
+        <RouterProvider router={router} />
+      </AppProvider>
     </AuthProvider>
   </StrictMode>,
 )
