@@ -6,7 +6,12 @@
     "dev": "nodemon server.js",
     "start": "node server.js"
   },
-  "keywords": ["authentication", "sports-hub", "nodejs", "express"],
+  "keywords": [
+    "authentication",
+    "sports-hub",
+    "nodejs",
+    "express"
+  ],
   "author": "",
   "license": "ISC",
   "description": "Authentication server for Sports Hub application",
