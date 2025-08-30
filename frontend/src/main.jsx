@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './AuthContext'
 import { ProtectedRoute } from '../components/ProtectedRoute'
-import AboutUs from '../components/aboutus'
+import AboutUs from '../components/AboutUs'
 import Home from '../components/home'
 import Layout from './layout'
 import Register from '../components/register'
@@ -13,6 +13,7 @@ import ResetPassword from '../components/ResetPassword'
 import NotFound from '../components/NotFound'
 import ChatBot from '../components/ChatBot'
 import IndiaPolygonMap from '../components/IndiaPolygonMap'
+import HydrogenPlantsMap from '../components/HydrogenPlantsMap'
 import GreenHydrogenHomepage from '../components/GreenHydrogenHomepage'
 
 // Single source of truth for all routing - using React Router DOM v6+ createBrowserRouter
@@ -27,10 +28,6 @@ const router = createBrowserRouter([
       { path: '/login', element: <Login /> },
       { path: '/otp-verification', element: <OTPVerification /> },
       { path: '/reset-password', element: <ResetPassword /> },
-  { path: '/chatbot', element: <ChatBot /> },
-  { path: '/india-map', element: <IndiaPolygonMap /> },
-  { path: '/green-hydrogen', element: <GreenHydrogenHomepage /> },
-  { path: '/admin', element: <AdminDashboard /> },
       { path: '/chatbot', element: <ChatBot /> },
       { path: '/india-map', element: <IndiaPolygonMap /> },
       { path: '/hydrogen-plants', element: <HydrogenPlantsMap /> },
