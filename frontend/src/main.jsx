@@ -2,10 +2,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './AuthContext'
-import { AppProvider } from './context/AppContext.jsx'
 import { ProtectedRoute } from '../components/ProtectedRoute'
-import NotificationManager from './components/NotificationManager.jsx'
-import AboutUs from '../components/AboutUs'
+import AboutUs from '../components/aboutus'
 import Home from '../components/home'
 import Layout from './layout'
 import Register from '../components/register'
@@ -15,9 +13,7 @@ import ResetPassword from '../components/ResetPassword'
 import NotFound from '../components/NotFound'
 import ChatBot from '../components/ChatBot'
 import IndiaPolygonMap from '../components/IndiaPolygonMap'
-import HydrogenPlantsMap from '../components/HydrogenPlantsMap'
 import GreenHydrogenHomepage from '../components/GreenHydrogenHomepage'
-import AdminDashboard from '../components/AdminDashboard'
 
 // Single source of truth for all routing - using React Router DOM v6+ createBrowserRouter
 const router = createBrowserRouter([
@@ -29,21 +25,16 @@ const router = createBrowserRouter([
       { path: '/aboutus', element: <AboutUs /> },
       { path: '/register', element: <Register /> },
       { path: '/login', element: <Login /> },
-      { path: '/verify-otp', element: <OTPVerification /> },
+      { path: '/otp-verification', element: <OTPVerification /> },
       { path: '/reset-password', element: <ResetPassword /> },
+  { path: '/chatbot', element: <ChatBot /> },
+  { path: '/india-map', element: <IndiaPolygonMap /> },
+  { path: '/green-hydrogen', element: <GreenHydrogenHomepage /> },
+  { path: '/admin', element: <AdminDashboard /> },
       { path: '/chatbot', element: <ChatBot /> },
       { path: '/india-map', element: <IndiaPolygonMap /> },
       { path: '/hydrogen-plants', element: <HydrogenPlantsMap /> },
       { path: '/green-hydrogen', element: <GreenHydrogenHomepage /> },
-      { 
-        path: '/admin', 
-        element: (
-          <ProtectedRoute adminOnly>
-            <AdminDashboard />
-          </ProtectedRoute>
-        ) 
-      },
-      { path: '*', element: <NotFound /> }, // Catch-all for 404
     ]
   },
 ])
@@ -51,10 +42,7 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <AppProvider>
-        <NotificationManager />
-        <RouterProvider router={router} />
-      </AppProvider>
+      <RouterProvider router={router} />
     </AuthProvider>
   </StrictMode>,
 )
