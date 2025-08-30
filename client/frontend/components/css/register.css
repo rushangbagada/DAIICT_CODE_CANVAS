@@ -150,46 +150,6 @@ body {
   transform: none;
 }
 
-/* Social Login */
-.social-login {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin: 20px 0;
-}
-
-.google-btn,
-.facebook-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 12px 20px;
-  border: 2px solid #e1e5e9;
-  border-radius: 8px;
-  background: white;
-  color: #333;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.google-btn:hover {
-  border-color: #4285f4;
-  background: #f8f9fa;
-}
-
-.facebook-btn:hover {
-  border-color: #1877f2;
-  background: #f8f9fa;
-}
-
-.google-btn img,
-.facebook-btn img {
-  width: 20px;
-  height: 20px;
-}
 
 /* Login Link */
 .login-link {
@@ -317,15 +277,6 @@ body {
   
   .header-section p {
     font-size: 16px;
-  }
-  
-  .social-login {
-    flex-direction: column;
-  }
-  
-  .google-btn,
-  .facebook-btn {
-    width: 100%;
   }
 }
 

@@ -12,8 +12,6 @@ const HydrogenMoleculeModel = ({ containerId }) => {
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);
   const animationRef = useRef(null);
-  const mouseRef = useRef({ x: 0, y: 0 });
-  const isHovering = useRef(false);
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -133,41 +131,15 @@ const HydrogenMoleculeModel = ({ containerId }) => {
 
     camera.position.set(0, 0, 8);
 
-    // Mouse interaction
-    const handleMouseMove = (event) => {
-      const rect = mountRef.current.getBoundingClientRect();
-      mouseRef.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      mouseRef.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-    };
-
-    const handleMouseEnter = () => {
-      isHovering.current = true;
-    };
-
-    const handleMouseLeave = () => {
-      isHovering.current = false;
-    };
-
-    mountRef.current.addEventListener('mousemove', handleMouseMove);
-    mountRef.current.addEventListener('mouseenter', handleMouseEnter);
-    mountRef.current.addEventListener('mouseleave', handleMouseLeave);
-
     // Enhanced animation loop
     const animate = () => {
       animationRef.current = requestAnimationFrame(animate);
       
       const time = Date.now() * 0.001;
       
-      // Enhanced molecule rotation with mouse interaction
-      const targetRotationY = isHovering.current ? 
-        time * 0.5 + mouseRef.current.x * 0.3 : 
-        time * 0.3;
-      const targetRotationX = isHovering.current ? 
-        mouseRef.current.y * 0.2 + Math.sin(time) * 0.1 : 
-        Math.sin(time) * 0.1;
-      
-      moleculeGroup.rotation.y += (targetRotationY - moleculeGroup.rotation.y) * 0.05;
-      moleculeGroup.rotation.x += (targetRotationX - moleculeGroup.rotation.x) * 0.05;
+      // Smooth consistent rotation
+      moleculeGroup.rotation.y = time * 0.2; // Slower, consistent rotation
+      moleculeGroup.rotation.x = Math.sin(time * 0.5) * 0.1; // Gentle up/down oscillation
       
       // Enhanced orbital ring animations
       const rings = [moleculeGroup.children[3], moleculeGroup.children[4]];
@@ -175,26 +147,19 @@ const HydrogenMoleculeModel = ({ containerId }) => {
       rings[1].rotation.z = time * -0.6;
       rings[1].rotation.x = -Math.PI / 4 + Math.sin(time) * 0.1;
       
-      // Dynamic particle animation with mouse interaction
+      // Dynamic particle animation
       const positions = particles.geometry.attributes.position.array;
       for (let i = 0; i < particleCount * 3; i += 3) {
         // Add floating motion
-        positions[i + 1] += Math.sin(time + i * 0.01) * 0.01;
-        
-        // Mouse attraction effect
-        if (isHovering.current) {
-          const dx = mouseRef.current.x * 5 - positions[i];
-          const dy = mouseRef.current.y * 5 - positions[i + 1];
-          positions[i] += dx * 0.002;
-          positions[i + 1] += dy * 0.002;
-        }
+        positions[i + 1] += Math.sin(time + i * 0.01) * 0.005; // Gentler floating
+        positions[i] += Math.cos(time + i * 0.008) * 0.003; // Gentle horizontal drift
         
         // Keep particles in bounds
         const distance = Math.sqrt(positions[i] ** 2 + positions[i + 1] ** 2 + positions[i + 2] ** 2);
         if (distance > 12) {
-          positions[i] *= 0.95;
-          positions[i + 1] *= 0.95;
-          positions[i + 2] *= 0.95;
+          positions[i] *= 0.98;
+          positions[i + 1] *= 0.98;
+          positions[i + 2] *= 0.98;
         }
       }
       particles.geometry.attributes.position.needsUpdate = true;
@@ -208,9 +173,9 @@ const HydrogenMoleculeModel = ({ containerId }) => {
       pointLight.position.x = Math.cos(time) * 2;
       pointLight.position.z = 3 + Math.sin(time) * 1;
       
-      // Scale effect on hover
-      const targetScale = isHovering.current ? 1.1 : 1.0;
-      moleculeGroup.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.05);
+      // Gentle breathing effect
+      const breathingScale = 1.0 + Math.sin(time * 0.8) * 0.05; // Very subtle scale variation
+      moleculeGroup.scale.setScalar(breathingScale);
       
       renderer.render(scene, camera);
     };
@@ -405,6 +370,43 @@ const GreenHydrogenHomepage = () => {
   const advantagesRef = useRef(null);
   const metricsRef = useRef(null);
   const contactRef = useRef(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeSection, setActiveSection] = useState('home');
+
+  // Handle scroll progress and active section
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalScroll = document.documentElement.scrollTop;
+      const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scroll = `${totalScroll / windowHeight}`;
+      setScrollProgress(scroll);
+
+      // Determine active section
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
+      
+      const sections = [
+        { id: 'home', ref: heroRef },
+        { id: 'about', ref: aboutRef },
+        { id: 'advantages', ref: advantagesRef },
+        { id: 'metrics', ref: metricsRef },
+        { id: 'contact', ref: contactRef }
+      ];
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        if (section.ref.current) {
+          const sectionTop = section.ref.current.offsetTop;
+          if (scrollPosition >= sectionTop) {
+            setActiveSection(section.id);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     // Hero section animations
@@ -469,8 +471,70 @@ const GreenHydrogenHomepage = () => {
 
   return (
     <div className="green-hydrogen-homepage">
+      {/* Scroll Progress Bar */}
+      <div className="scroll-progress-container">
+        <div 
+          className="scroll-progress-bar"
+          style={{ transform: `scaleX(${scrollProgress})` }}
+        ></div>
+      </div>
+
       {/* Enhanced Navigation */}
       <EnhancedNavbar />
+
+      {/* Vertical Section Progress Bar */}
+      <div className="vertical-progress-container">
+        <div className="vertical-progress-bar">
+          <div className="section-indicators">
+            <div 
+              className={`section-indicator ${activeSection === 'home' ? 'active' : ''}`}
+              onClick={() => heroRef.current?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              <div className="indicator-dot"></div>
+              <div className="indicator-label">Home</div>
+              <div className="indicator-icon">🏠</div>
+            </div>
+            <div 
+              className={`section-indicator ${activeSection === 'about' ? 'active' : ''}`}
+              onClick={() => aboutRef.current?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              <div className="indicator-dot"></div>
+              <div className="indicator-label">About</div>
+              <div className="indicator-icon">🌱</div>
+            </div>
+            <div 
+              className={`section-indicator ${activeSection === 'advantages' ? 'active' : ''}`}
+              onClick={() => advantagesRef.current?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              <div className="indicator-dot"></div>
+              <div className="indicator-label">Advantages</div>
+              <div className="indicator-icon">⚡</div>
+            </div>
+            <div 
+              className={`section-indicator ${activeSection === 'metrics' ? 'active' : ''}`}
+              onClick={() => metricsRef.current?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              <div className="indicator-dot"></div>
+              <div className="indicator-label">Metrics</div>
+              <div className="indicator-icon">📊</div>
+            </div>
+            <div 
+              className={`section-indicator ${activeSection === 'contact' ? 'active' : ''}`}
+              onClick={() => contactRef.current?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              <div className="indicator-dot"></div>
+              <div className="indicator-label">Contact</div>
+              <div className="indicator-icon">📧</div>
+            </div>
+          </div>
+          <div className="progress-line">
+            <div 
+              className="progress-fill"
+              style={{ height: `${scrollProgress * 100}%` }}
+            ></div>
+          </div>
+        </div>
+      </div>
 
       {/* Hero Section */}
       <section id="home" className="hero-section" ref={heroRef}>

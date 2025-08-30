@@ -1,0 +1,121 @@
+/* Loading Button Styles */
+.loading-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+/* Primary variant */
+.loading-btn--primary {
+  background: linear-gradient(135deg, #2d5a27 0%, #4a7c59 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(45, 90, 39, 0.2);
+}
+
+.loading-btn--primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1e3a1a 0%, #3a6147 100%);
+  box-shadow: 0 4px 8px rgba(45, 90, 39, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Secondary variant */
+.loading-btn--secondary {
+  background: #f8f9fa;
+  color: #495057;
+  border: 1px solid #dee2e6;
+}
+
+.loading-btn--secondary:hover:not(:disabled) {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
+
+/* Disabled and loading states */
+.loading-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.loading-btn--loading {
+  pointer-events: none;
+}
+
+/* Spinner */
+.loading-btn__spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+}
+
+.loading-btn__spinner-icon {
+  animation: spin 1s linear infinite;
+  color: currentColor;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Text */
+.loading-btn__text {
+  transition: opacity 0.2s ease;
+}
+
+.loading-btn__text--loading {
+  opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .loading-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+}
+
+/* Focus styles */
+.loading-btn:focus-visible {
+  outline: 2px solid #2d5a27;
+  outline-offset: 2px;
+}
+
+/* Success state (optional) */
+.loading-btn--success {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+}
+
+.loading-btn--success:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1e7e34 0%, #17a085 100%);
+}
+
+/* Danger state (optional) */
+.loading-btn--danger {
+  background: linear-gradient(135deg, #dc3545 0%, #e55353 100%);
+  color: white;
+}
+
+.loading-btn--danger:hover:not(:disabled) {
+  background: linear-gradient(135deg, #c82333 0%, #d63447 100%);
+}

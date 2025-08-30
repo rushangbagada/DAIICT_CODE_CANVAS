@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const hydrogenPlantsRoutes = require("./routes/hydrogenPlants");
+const emailRoutes = require("./routes/emailRoutes");
 
 dotenv.config();
 const app = express();
@@ -20,6 +21,7 @@ connectDB();
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/hydrogen-plants", hydrogenPlantsRoutes);
+app.use("/api/email", emailRoutes);
 
 // Health check endpoint
 app.get("/", (req, res) => res.send("Green Hydrogen Platform API is running"));

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { useNavigate } from 'react-router-dom';
 import L from 'leaflet';
 import { gsap } from 'gsap';
 import { useApp } from '../src/context/AppContext.jsx';
@@ -10,9 +11,9 @@ import './css/HydrogenPlantsMap.css';
 // Fix for default markers in react-leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
 });
 
 // Custom hydrogen plant icon
@@ -199,6 +200,7 @@ const HydrogenPlantsMap = () => {
   const [localLoading, setLocalLoading] = useState(true);
   const mapRef = useRef(null);
   const statsRef = useRef(null);
+  const navigate = useNavigate();
 
   // Use plants from context or fallback to default
   const hydrogenPlants = plants.length > 0 ? plants : defaultHydrogenPlants;
@@ -591,6 +593,89 @@ const HydrogenPlantsMap = () => {
               <div className="banner-stat">
                 <span className="stat-value">125 GW</span>
                 <span className="stat-desc">Renewable Capacity</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* H2 Plants Documentation Section */}
+      <div className="h2-plants-section">
+        <div className="container">
+          <div className="section-header">
+            <h2>H2 Plants Documentation</h2>
+            <p>Generate comprehensive reports and documentation for power plant analysis</p>
+          </div>
+          
+          <div className="documentation-grid">
+            <div className="doc-card main-card" onClick={() => navigate('/pdf-generator')}>
+              <div className="doc-icon">📊</div>
+              <div className="doc-content">
+                <h3>Power Plants PDF Generator</h3>
+                <p>
+                  Generate detailed PDF reports of power plants by state, including capacity analysis, 
+                  fuel type distribution, and operational statistics. Perfect for research and presentations.
+                </p>
+                <div className="doc-features">
+                  <span className="feature-tag">✨ State-wise Analysis</span>
+                  <span className="feature-tag">📈 Statistical Reports</span>
+                  <span className="feature-tag">📧 Email Delivery</span>
+                  <span className="feature-tag">💾 PDF Export</span>
+                </div>
+                <button className="doc-button">
+                  Generate Reports
+                  <span className="button-arrow">→</span>
+                </button>
+              </div>
+            </div>
+            
+            <div className="doc-card">
+              <div className="doc-icon">🏭</div>
+              <div className="doc-content">
+                <h3>Plant Data Overview</h3>
+                <p>Access comprehensive data covering multiple Indian states with detailed plant information.</p>
+                <ul className="doc-list">
+                  <li>• 5 Major Indian States Covered</li>
+                  <li>• 17+ Power Plants Database</li>
+                  <li>• Multiple Fuel Types</li>
+                  <li>• Operational Insights</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div className="doc-card">
+              <div className="doc-icon">📋</div>
+              <div className="doc-content">
+                <h3>Report Features</h3>
+                <p>Professional reports with comprehensive analysis and visual data representation.</p>
+                <ul className="doc-list">
+                  <li>• Professional PDF Layout</li>
+                  <li>• Statistical Summaries</li>
+                  <li>• Plant Efficiency Data</li>
+                  <li>• Capacity Analysis</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div className="quick-stats">
+            <h4>Available Data Coverage</h4>
+            <div className="coverage-grid">
+              <div className="coverage-item">
+                <span className="coverage-number">5</span>
+                <span className="coverage-label">States</span>
+              </div>
+              <div className="coverage-item">
+                <span className="coverage-number">17+</span>
+                <span className="coverage-label">Power Plants</span>
+              </div>
+              <div className="coverage-item">
+                <span className="coverage-number">6</span>
+                <span className="coverage-label">Fuel Types</span>
+              </div>
+              <div className="coverage-item">
+                <span className="coverage-number">∞</span>
+                <span className="coverage-label">PDF Reports</span>
               </div>
             </div>
           </div>

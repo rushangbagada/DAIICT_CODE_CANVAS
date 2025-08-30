@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './AuthContext'
@@ -17,6 +17,7 @@ import IndiaPolygonMap from '../components/IndiaPolygonMap'
 import HydrogenPlantsMap from '../components/HydrogenPlantsMap'
 import GreenHydrogenHomepage from '../components/GreenHydrogenHomepage'
 import AdminDashboard from '../components/AdminDashboard'
+import PowerPlantPDFGenerator from '../components/PowerPlantPDFGenerator'
 
 // Single source of truth for all routing - using React Router DOM v6+ createBrowserRouter
 const router = createBrowserRouter([
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
       { path: '/india-map', element: <IndiaPolygonMap /> },
       { path: '/hydrogen-plants', element: <HydrogenPlantsMap /> },
       { path: '/green-hydrogen', element: <GreenHydrogenHomepage /> },
+<<<<<<< HEAD:client/frontend/src/main.jsx
       { 
         path: '/admin', 
         element: (
@@ -44,6 +46,11 @@ const router = createBrowserRouter([
       },
     ],
     errorElement: <NotFound />
+=======
+      { path: '/admin', element: <AdminDashboard /> },
+      { path: '/pdf-generator', element: <PowerPlantPDFGenerator /> },
+    ]
+>>>>>>> 7fd0564ac2d4e129fc056ffc01ad309edc059082:frontend/src/main.jsx
   },
   {
     path: '*',

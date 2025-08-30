@@ -4,7 +4,7 @@
 function App() {
   return (
     <div>
-      {/* This component is available for future global app logic */}
+
     </div>
   );
 }

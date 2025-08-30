@@ -17,13 +17,21 @@ const emailConfig = {
     },
   },
   
-  // Option 2: Gmail
+// Option 2: Gmail - Optimized
   gmail: {
     service: 'gmail',
+    pool: true, // Use connection pooling
+    maxConnections: 5, // Maximum concurrent connections
+    maxMessages: 100, // Maximum messages per connection
+    rateDelta: 1000, // Rate limiting - 1 second
+    rateLimit: 5, // Maximum 5 emails per second
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS, // Use App Password, not regular password
     },
+    tls: {
+      rejectUnauthorized: false // For development only
+    }
   },
   
   // Option 3: Outlook/Hotmail
