@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './AuthContext'
@@ -16,6 +16,7 @@ import IndiaPolygonMap from '../components/IndiaPolygonMap'
 import HydrogenPlantsMap from '../components/HydrogenPlantsMap'
 import GreenHydrogenHomepage from '../components/GreenHydrogenHomepage'
 import AdminDashboard from '../components/AdminDashboard'
+import PowerPlantPDFGenerator from '../components/PowerPlantPDFGenerator'
 
 
 // Single source of truth for all routing - using React Router DOM v6+ createBrowserRouter
@@ -30,14 +31,12 @@ const router = createBrowserRouter([
       { path: '/login', element: <Login /> },
       { path: '/otp-verification', element: <OTPVerification /> },
       { path: '/reset-password', element: <ResetPassword /> },
-  { path: '/chatbot', element: <ChatBot /> },
-  { path: '/india-map', element: <IndiaPolygonMap /> },
-  { path: '/green-hydrogen', element: <GreenHydrogenHomepage /> },
-  { path: '/admin', element: <AdminDashboard /> },
       { path: '/chatbot', element: <ChatBot /> },
       { path: '/india-map', element: <IndiaPolygonMap /> },
       { path: '/hydrogen-plants', element: <HydrogenPlantsMap /> },
       { path: '/green-hydrogen', element: <GreenHydrogenHomepage /> },
+      { path: '/admin', element: <AdminDashboard /> },
+      { path: '/pdf-generator', element: <PowerPlantPDFGenerator /> },
     ]
   },
 ])

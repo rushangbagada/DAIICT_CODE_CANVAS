@@ -70,7 +70,7 @@ const EnhancedNavbar = () => {
             to="/" 
             className={`nav-link ${isActiveLink('/') ? 'active' : ''}`}
           >
-            <span className="nav-icon">🏠</span>
+            <span className="nav-icon"></span>
             <span className="nav-text">Home</span>
             <div className="nav-glow"></div>
           </Link>
@@ -79,7 +79,7 @@ const EnhancedNavbar = () => {
             to="/aboutus" 
             className={`nav-link ${isActiveLink('/aboutus') ? 'active' : ''}`}
           >
-            <span className="nav-icon">ℹ️</span>
+            <span className="nav-icon"></span>
             <span className="nav-text">About</span>
             <div className="nav-glow"></div>
           </Link>
@@ -88,7 +88,7 @@ const EnhancedNavbar = () => {
             to="/india-map" 
             className={`nav-link ${isActiveLink('/india-map') ? 'active' : ''}`}
           >
-            <span className="nav-icon">🗺️</span>
+            <span className="nav-icon"></span>
             <span className="nav-text">India Map</span>
             <div className="nav-glow"></div>
           </Link>
@@ -97,7 +97,7 @@ const EnhancedNavbar = () => {
             to="/hydrogen-plants" 
             className={`nav-link ${isActiveLink('/hydrogen-plants') ? 'active' : ''}`}
           >
-            <span className="nav-icon">⚡</span>
+            <span className="nav-icon"></span>
             <span className="nav-text">H₂ Plants</span>
             <div className="nav-glow"></div>
           </Link>
@@ -106,7 +106,7 @@ const EnhancedNavbar = () => {
             to="/chatbot" 
             className={`nav-link ${isActiveLink('/chatbot') ? 'active' : ''}`}
           >
-            <span className="nav-icon">💬</span>
+            <span className="nav-icon"></span>
             <span className="nav-text">ChatBot</span>
             <div className="nav-glow"></div>
           </Link>

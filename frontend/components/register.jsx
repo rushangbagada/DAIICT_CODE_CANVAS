@@ -181,23 +181,6 @@ export default function Register() {
             {errors.department && <span className="error-text">{errors.department.message}</span>}
           </div>
 
-          <div className="social-login">
-            <button type="button" className="google-btn">
-              <img
-                src="https://img.icons8.com/color/16/000000/google-logo.png"
-                alt="Google"
-              />
-              Continue with Google
-            </button>
-            <button type="button" className="facebook-btn">
-              <img
-                src="https://img.icons8.com/color/16/000000/facebook-new.png"
-                alt="Facebook"
-              />
-              Continue with Facebook
-            </button>
-          </div>
-
           <button type="submit" className="submit-btn" disabled={loading}>
             {loading ? 'Creating Account...' : 'Create Account'}
           </button>
