@@ -40,7 +40,7 @@ export default function Register() {
         toast.error(result.message || 'Registration failed');
       } else {
         toast.success('Registration successful! Please check your email for OTP to complete login.');
-        navigate(`/verify-otp?type=login&email=${data.email}`);
+        navigate(`/otp-verification?type=login&email=${data.email}`);
       }
     } catch (err) {
       toast.error('Network error. Try again.');

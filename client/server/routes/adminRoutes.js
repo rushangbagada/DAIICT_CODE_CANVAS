@@ -1,4 +1,4 @@
-// Admin user management routes for Green Hydrogen
+
 const express = require('express');
 const router = express.Router();
 const userAdminController = require('../controllers/admin/userAdminController');

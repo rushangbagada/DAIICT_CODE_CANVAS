@@ -1,19 +1,15 @@
 /* Login Page Styles */
-/* Green Theme Update */
-/* Black background with green accents */
 .login-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #111;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px;
 }
 
-/* Dark card background, light text */
 .login-card {
-  background: #181818;
-  color: #f3f3f3;
+  background: white;
   padding: 40px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -44,34 +40,28 @@
   text-align: left;
 }
 
-/* Light label */
 .form-group label {
   display: block;
   margin-bottom: 8px;
-  color: #e0e0e0;
+  color: #555;
   font-weight: 500;
   font-size: 14px;
 }
 
-/* Dark input background, light text */
 .form-group input {
   width: 100%;
   padding: 12px 15px;
-  border: 2px solid #333;
+  border: 2px solid #e1e5e9;
   border-radius: 8px;
   font-size: 16px;
   transition: border-color 0.3s ease;
   box-sizing: border-box;
-  background: #232323;
-  color: #f3f3f3;
 }
 
-/* Green focus */
-/* Green focus for dark input */
 .form-group input:focus {
   outline: none;
-  border-color: #00d764;
-  box-shadow: 0 0 0 3px rgba(0, 215, 100, 0.1);
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .error-text {
@@ -81,9 +71,8 @@
   display: block;
 }
 
-/* Green button */
 .login-btn {
-  background: linear-gradient(135deg, #00d764 0%, #00b854 50%, #008f42 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 14px 20px;
   border: none;
@@ -95,10 +84,9 @@
   margin-top: 10px;
 }
 
-/* Green shadow on hover */
 .login-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 215, 100, 0.4);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
 .login-btn:disabled {
@@ -137,24 +125,21 @@
   color: #666;
 }
 
-/* Green login link */
 .login-link a {
-  color: #00d764;
+  color: #667eea;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
-/* Green login link hover */
 .login-link a:hover {
-  color: #008f42;
+  color: #764ba2;
 }
 
-/* Green forgot password */
 .forgot-password-btn {
   background: none;
   border: none;
-  color: #00d764;
+  color: #667eea;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
@@ -162,9 +147,8 @@
   transition: color 0.3s ease;
 }
 
-/* Green forgot password hover */
 .forgot-password-btn:hover {
-  color: #008f42;
+  color: #764ba2;
 }
 
 .back-btn {
@@ -215,11 +199,10 @@
   margin-bottom: 10px;
 }
 
-/* Green resend button */
 .resend-btn {
   background: none;
-  border: 1px solid #00d764;
-  color: #00d764;
+  border: 1px solid #667eea;
+  color: #667eea;
   padding: 8px 16px;
   border-radius: 6px;
   font-size: 14px;
@@ -227,9 +210,8 @@
   transition: all 0.3s ease;
 }
 
-/* Green resend hover */
 .resend-btn:hover:not(:disabled) {
-  background: #00d764;
+  background: #667eea;
   color: white;
 }
 

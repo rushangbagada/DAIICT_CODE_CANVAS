@@ -32,7 +32,7 @@ export default function Login() {
         toast.error(result.message || 'Login failed');
       } else {
         toast.success('OTP sent to your email! Please verify to complete login.');
-        navigate(`/verify-otp?type=login&email=${data.email}`);
+        navigate(`/otp-verification?type=login&email=${data.email}`);
       }
     } catch (err) {
       toast.error('Network error. Try again.');
@@ -60,7 +60,7 @@ export default function Login() {
         toast.error(result.message);
       } else {
         toast.success('Reset token sent to your email!');
-        navigate(`/verify-otp?type=reset&email=${forgotEmail}`);
+        navigate(`/otp-verification?type=reset&email=${forgotEmail}`);
       }
     } catch (err) {
       toast.error('Network error. Try again.');

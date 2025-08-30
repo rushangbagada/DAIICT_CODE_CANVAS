@@ -4,7 +4,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './AuthContext'
 import { AppProvider } from './context/AppContext'
 import { ProtectedRoute } from '../components/ProtectedRoute'
-import AboutUs from '../components/AboutUs'
+import AboutUs from '../components/aboutus'
 import Home from '../components/home'
 import Layout from './layout'
 import Register from '../components/register'
@@ -14,8 +14,9 @@ import ResetPassword from '../components/ResetPassword'
 import NotFound from '../components/NotFound'
 import ChatBot from '../components/ChatBot'
 import IndiaPolygonMap from '../components/IndiaPolygonMap'
-import HydrogenPlantsMap from '../components/HydrogenPlantsMap'
 import GreenHydrogenHomepage from '../components/GreenHydrogenHomepage'
+import HydrogenPlantsMap from '../components/HydrogenPlantsMap'
+import MLResultsPage from '../components/MLResultsPage'
 import AdminDashboard from '../components/AdminDashboard'
 import PowerPlantPDFGenerator from '../components/PowerPlantPDFGenerator'
 
@@ -33,9 +34,10 @@ const router = createBrowserRouter([
       { path: '/reset-password', element: <ResetPassword /> },
       { path: '/chatbot', element: <ChatBot /> },
       { path: '/india-map', element: <IndiaPolygonMap /> },
+      { path: '/map', element: <IndiaPolygonMap /> },
+      { path: '/ml-results', element: <MLResultsPage /> },
       { path: '/hydrogen-plants', element: <HydrogenPlantsMap /> },
       { path: '/green-hydrogen', element: <GreenHydrogenHomepage /> },
-<<<<<<< HEAD:client/frontend/src/main.jsx
       { 
         path: '/admin', 
         element: (
@@ -44,13 +46,9 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ) 
       },
+      { path: '/pdf-generator', element: <PowerPlantPDFGenerator /> },
     ],
     errorElement: <NotFound />
-=======
-      { path: '/admin', element: <AdminDashboard /> },
-      { path: '/pdf-generator', element: <PowerPlantPDFGenerator /> },
-    ]
->>>>>>> 7fd0564ac2d4e129fc056ffc01ad309edc059082:frontend/src/main.jsx
   },
   {
     path: '*',

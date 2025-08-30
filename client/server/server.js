@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
+const mlRoutes = require("./routes/mlRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const hydrogenPlantsRoutes = require("./routes/hydrogenPlants");
 const emailRoutes = require("./routes/emailRoutes");
@@ -18,13 +19,25 @@ app.use(express.json());
 connectDB();
 
 // Routes
+
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/hydrogen-plants", hydrogenPlantsRoutes);
 app.use("/api/email", emailRoutes);
+app.use("/api/ml", mlRoutes);
 
 // Health check endpoint
 app.get("/", (req, res) => res.send("Green Hydrogen Platform API is running"));
+
+// ML model status endpoint
+app.get("/api/ml/status", (req, res) => {
+  res.json({
+    status: "active",
+    model: "hydrogen-site-recommender",
+    description: "ML model for hydrogen site recommendation",
+    timestamp: new Date().toISOString()
+  });
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {

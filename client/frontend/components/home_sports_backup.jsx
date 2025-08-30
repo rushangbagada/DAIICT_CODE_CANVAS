@@ -12,7 +12,7 @@ export default function Home() {
           <h1>Unite, Compete, <span className="highlight">Celebrate</span></h1>
           <p>
             Join the ultimate college sports experience. Discover your passion,
-
+            build lifelong friendships, and compete at the highest level.
           </p>
           <div className="hero-buttons">
             <Link to="/register" className="btn primary">Join a Club Today →</Link>

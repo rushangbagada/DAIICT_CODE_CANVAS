@@ -141,6 +141,34 @@ const EnhancedFooter = () => {
               </li>
             </ul>
           </div>
+
+          {/* Contact Info */}
+          <div className="footer-section contact-section">
+            <h3 className="section-title">Get in Touch</h3>
+            <div className="contact-info">
+              <div className="contact-item">
+                <span className="contact-icon">📧</span>
+                <div className="contact-details">
+                  <span className="contact-label">Email</span>
+                  <span className="contact-value">info@greenhydrogen.com</span>
+                </div>
+              </div>
+              <div className="contact-item">
+                <span className="contact-icon">📞</span>
+                <div className="contact-details">
+                  <span className="contact-label">Phone</span>
+                  <span className="contact-value">+1 (555) 123-4567</span>
+                </div>
+              </div>
+              <div className="contact-item">
+                <span className="contact-icon">📍</span>
+                <div className="contact-details">
+                  <span className="contact-label">Address</span>
+                  <span className="contact-value">123 Clean Energy Blvd<br />Future City, FC 12345</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Newsletter Signup */}

@@ -1,18 +1,15 @@
 /* OTP Verification Container */
-/* Black background with green accents */
 .otp-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #111;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px;
 }
 
-/* Ensure dark card background, light text */
 .otp-card {
-  background: #181818;
-  color: #f3f3f3;
+  background: white;
   padding: 40px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -34,7 +31,7 @@
 }
 
 .otp-description {
-  color: #cccccc;
+  color: #666;
   margin-bottom: 20px;
   font-size: 16px;
   line-height: 1.5;
@@ -63,20 +60,18 @@
   margin-bottom: 20px;
 }
 
-/* Light label */
 .form-group label {
   display: block;
   margin-bottom: 8px;
-  color: #e0e0e0;
+  color: #555;
   font-weight: 500;
   font-size: 14px;
 }
 
-/* Dark input background, light text */
 .otp-input {
   width: 100%;
   padding: 15px;
-  border: 2px solid #333;
+  border: 2px solid #e1e5e9;
   border-radius: 8px;
   font-size: 18px;
   font-weight: 600;
@@ -84,15 +79,12 @@
   letter-spacing: 2px;
   transition: border-color 0.3s ease;
   box-sizing: border-box;
-  background: #232323;
-  color: #f3f3f3;
 }
 
-/* Green focus for dark input */
 .otp-input:focus {
   outline: none;
-  border-color: #00d764;
-  box-shadow: 0 0 0 3px rgba(0, 215, 100, 0.1);
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .error-text {
@@ -167,7 +159,7 @@
 
 .resend-section p {
   margin-bottom: 10px;
-  color: #cccccc;
+  color: #666;
   font-size: 14px;
 }
 

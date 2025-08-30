@@ -1,4 +1,4 @@
-// Admin password utility for Green Hydrogen admin panel
+
 const bcrypt = require('bcryptjs');
 
 const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || '';
