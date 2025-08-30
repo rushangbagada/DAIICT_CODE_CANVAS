@@ -29,8 +29,13 @@ const router = createBrowserRouter([
       { path: '/login', element: <Login /> },
       { path: '/otp-verification', element: <OTPVerification /> },
       { path: '/reset-password', element: <ResetPassword /> },
+  { path: '/chatbot', element: <ChatBot /> },
+  { path: '/india-map', element: <IndiaPolygonMap /> },
+  { path: '/green-hydrogen', element: <GreenHydrogenHomepage /> },
+  { path: '/admin', element: <AdminDashboard /> },
       { path: '/chatbot', element: <ChatBot /> },
       { path: '/india-map', element: <IndiaPolygonMap /> },
+      { path: '/hydrogen-plants', element: <HydrogenPlantsMap /> },
       { path: '/green-hydrogen', element: <GreenHydrogenHomepage /> },
     ]
   },
