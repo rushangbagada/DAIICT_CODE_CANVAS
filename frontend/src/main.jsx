@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './AuthContext'
 import { ProtectedRoute } from '../components/ProtectedRoute'
-import AboutUs from '../components/AboutUs'
+import AboutUs from '../components/aboutus'
 import Home from '../components/home'
 import Layout from './layout'
 import Register from '../components/register'
@@ -16,6 +16,7 @@ import IndiaPolygonMap from '../components/IndiaPolygonMap'
 import HydrogenPlantsMap from '../components/HydrogenPlantsMap'
 import GreenHydrogenHomepage from '../components/GreenHydrogenHomepage'
 import AdminDashboard from '../components/AdminDashboard'
+
 
 // Single source of truth for all routing - using React Router DOM v6+ createBrowserRouter
 const router = createBrowserRouter([
