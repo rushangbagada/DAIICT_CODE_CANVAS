@@ -2,12 +2,13 @@
 import React, { useState } from "react";
 import { useAuth } from "../src/AuthContext";
 import { chatWithFashionBot } from "@/utils/chatbot";
+import { generateMessageId } from '../src/utils/uniqueId';
 import './css/chatbot.css'; // Import responsive styles
 
 const ChatBot = () => {
   const { user } = useAuth();
   const username = user?.name || 'Guest';
-  const [messages, setMessages] = useState([]); // {sender: "user"|"bot", text: ""}
+  const [messages, setMessages] = useState([]); // {sender: "user"|"bot", text: "", id: ""}
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -15,7 +16,8 @@ const ChatBot = () => {
     if (!input.trim()) return;
 
     // Add user's message
-    const newMessages = [...messages, { sender: "user", text: input }];
+    const userMessage = { sender: "user", text: input, id: generateMessageId() };
+    const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput("");
     setLoading(true);
@@ -23,9 +25,11 @@ const ChatBot = () => {
     try {
       // Call your chatbot function
       const reply = await chatWithFashionBot([input], username);
-      setMessages([...newMessages, { sender: "bot", text: reply }]);
+      const botMessage = { sender: "bot", text: reply, id: generateMessageId() };
+      setMessages([...newMessages, botMessage]);
     } catch (err) {
-      setMessages([...newMessages, { sender: "bot", text: "Bot is unavailable." }]);
+      const errorMessage = { sender: "bot", text: "Bot is unavailable.", id: generateMessageId() };
+      setMessages([...newMessages, errorMessage]);
       console.error(err);
     } finally {
       setLoading(false);
@@ -48,7 +52,7 @@ const ChatBot = () => {
         <div className="chatbot-messages-container">
         {messages.map((msg, idx) => (
           <div
-            key={idx}
+            key={msg.id || `message-${idx}-${msg.sender}`}
             className="chatbot-message"
             style={{
               alignSelf: msg.sender === "user" ? "flex-end" : "flex-start",

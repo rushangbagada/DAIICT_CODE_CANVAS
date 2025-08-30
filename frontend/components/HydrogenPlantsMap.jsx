@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { gsap } from 'gsap';
+import { useApp } from '../src/context/AppContext.jsx';
+import apiService from '../src/services/apiService';
 import EnhancedNavbar from './EnhancedNavbar';
 import './css/HydrogenPlantsMap.css';
 
@@ -31,8 +33,8 @@ const proposedPlantIcon = L.divIcon({
   popupAnchor: [0, -17.5],
 });
 
-// Research-based hydrogen plant data in India
-const hydrogenPlants = [
+// This will be replaced with API data
+const defaultHydrogenPlants = [
   {
     id: 1,
     name: "IOCL Green Hydrogen Plant",
@@ -191,69 +193,120 @@ const MapController = ({ center, zoom }) => {
 };
 
 const HydrogenPlantsMap = () => {
+  const { plants, plantsLoading, plantsError, plantsActions, addNotification } = useApp();
   const [selectedPlant, setSelectedPlant] = useState(null);
   const [filterStatus, setFilterStatus] = useState('all');
+  const [localLoading, setLocalLoading] = useState(true);
   const mapRef = useRef(null);
   const statsRef = useRef(null);
 
-  // Filter plants based on status
+  // Use plants from context or fallback to default
+  const hydrogenPlants = plants.length > 0 ? plants : defaultHydrogenPlants;
+  const loading = plantsLoading || localLoading;
+  const error = plantsError;
+
+  // Filter plants based on status (handle both old and new format)
   const filteredPlants = filterStatus === 'all' 
     ? hydrogenPlants 
-    : hydrogenPlants.filter(plant => plant.status === filterStatus);
+    : hydrogenPlants.filter(plant => {
+        const status = plant.status || plant.projectStatus;
+        return status?.toLowerCase() === filterStatus.toLowerCase() || status === filterStatus;
+      });
 
   // Calculate statistics
   const stats = {
     total: hydrogenPlants.length,
-    operational: hydrogenPlants.filter(p => p.status === 'operational').length,
-    under_construction: hydrogenPlants.filter(p => p.status === 'under_construction').length,
-    planned: hydrogenPlants.filter(p => p.status === 'planned').length,
+    operational: hydrogenPlants.filter(p => p.status === 'operational' || p.status === 'Operational').length,
+    under_construction: hydrogenPlants.filter(p => p.status === 'under_construction' || p.status === 'Under Construction').length,
+    planned: hydrogenPlants.filter(p => p.status === 'planned' || p.status === 'Planned').length,
     total_capacity: hydrogenPlants.reduce((sum, plant) => {
-      const capacity = parseFloat(plant.capacity.replace(/[^\d.]/g, ''));
+      let capacity = 0;
+      if (plant.capacity) {
+        // Handle both old format (capacity as string) and new format (capacity as object)
+        const capacityStr = typeof plant.capacity === 'object' ? 
+          plant.capacity.value + ' ' + plant.capacity.unit : 
+          plant.capacity.toString();
+        capacity = parseFloat(capacityStr.replace(/[^\d.]/g, ''));
+      } else if (plant.technicalSpecs?.productionCapacity?.value) {
+        capacity = plant.technicalSpecs.productionCapacity.value;
+      }
       return sum + (isNaN(capacity) ? 0 : capacity);
     }, 0)
   };
 
+  // Fetch hydrogen plants data
   useEffect(() => {
-    // Animate stats on load
-    gsap.fromTo('.stat-card', 
-      { opacity: 0, y: 30, scale: 0.9 }, 
-      { 
-        opacity: 1, 
-        y: 0, 
-        scale: 1,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "back.out(1.7)"
+    const fetchHydrogenPlants = async () => {
+      try {
+        setLocalLoading(true);
+        // Try to fetch from API first
+        await plantsActions.fetchPlants();
+        setLocalLoading(false);
+      } catch (err) {
+        console.warn('API not available, using default data:', err);
+        // If API fails, show notification but continue with default data
+        addNotification('Using cached plant data - API unavailable', 'warning', 3000);
+        setLocalLoading(false);
       }
-    );
+    };
 
-    // Animate map container
-    gsap.fromTo('.map-container', 
-      { opacity: 0, scale: 0.95 }, 
-      { opacity: 1, scale: 1, duration: 1.2, delay: 0.3, ease: "power2.out" }
-    );
+    // Only fetch if we don't have plants data yet
+    if (plants.length === 0) {
+      fetchHydrogenPlants();
+    } else {
+      setLocalLoading(false);
+    }
+  }, [plants.length, plantsActions, addNotification]);
 
-  }, []);
+  useEffect(() => {
+    if (!loading) {
+      // Animate stats on load
+      gsap.fromTo('.stat-card', 
+        { opacity: 0, y: 30, scale: 0.9 }, 
+        { 
+          opacity: 1, 
+          y: 0, 
+          scale: 1,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "back.out(1.7)"
+        }
+      );
+
+      // Animate map container
+      gsap.fromTo('.map-container', 
+        { opacity: 0, scale: 0.95 }, 
+        { opacity: 1, scale: 1, duration: 1.2, delay: 0.3, ease: "power2.out" }
+      );
+    }
+  }, [loading]);
 
   const getMarkerIcon = (status) => {
-    return status === 'planned' ? proposedPlantIcon : hydrogenPlantIcon;
+    const statusLower = status?.toLowerCase();
+    return (statusLower === 'planned' || statusLower === 'proposed') ? proposedPlantIcon : hydrogenPlantIcon;
   };
 
   const getStatusColor = (status) => {
-    switch(status) {
+    const statusLower = status?.toLowerCase();
+    switch(statusLower) {
       case 'operational': return '#00d764';
-      case 'under_construction': return '#39ff14';
-      case 'planned': return '#00b854';
+      case 'under_construction': 
+      case 'under construction': return '#39ff14';
+      case 'planned':
+      case 'proposed': return '#00b854';
       default: return '#00d764';
     }
   };
 
   const getStatusLabel = (status) => {
-    switch(status) {
+    const statusLower = status?.toLowerCase();
+    switch(statusLower) {
       case 'operational': return 'Operational';
-      case 'under_construction': return 'Under Construction';
-      case 'planned': return 'Planned';
-      default: return status;
+      case 'under_construction': 
+      case 'under construction': return 'Under Construction';
+      case 'planned':
+      case 'proposed': return 'Planned';
+      default: return status || 'Unknown';
     }
   };
 
@@ -353,38 +406,66 @@ const HydrogenPlantsMap = () => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               />
               
-              {filteredPlants.map((plant) => (
-                <Marker
-                  key={plant.id}
-                  position={plant.coordinates}
-                  icon={getMarkerIcon(plant.status)}
-                  eventHandlers={{
-                    click: () => setSelectedPlant(plant),
-                  }}
-                >
-                  <Popup className="custom-popup">
-                    <div className="popup-content">
-                      <h3 className="popup-title">{plant.name}</h3>
-                      <div className="popup-details">
-                        <p><strong>Location:</strong> {plant.location}</p>
-                        <p><strong>Company:</strong> {plant.company}</p>
-                        <p><strong>Capacity:</strong> {plant.capacity}</p>
-                        <p><strong>Type:</strong> {plant.type}</p>
-                        <p><strong>Status:</strong> 
-                          <span 
-                            className="status-badge"
-                            style={{ color: getStatusColor(plant.status) }}
-                          >
-                            {getStatusLabel(plant.status)}
-                          </span>
-                        </p>
-                        <p><strong>Commissioning:</strong> {plant.commissioning}</p>
-                        <p className="popup-description">{plant.description}</p>
+              {filteredPlants.map((plant) => {
+                // Handle both old and new data formats
+                const plantName = plant.name || plant.plantName || 'Unnamed Plant';
+                const plantLocation = plant.location || 
+                  (plant.location?.city && plant.location?.state ? 
+                    `${plant.location.city}, ${plant.location.state}` : 
+                    'Unknown Location');
+                const plantCompany = plant.company || plant.companyInfo?.name || 'Unknown Company';
+                const plantCapacity = typeof plant.capacity === 'object' ? 
+                  `${plant.capacity.value} ${plant.capacity.unit}` : 
+                  plant.capacity || 
+                  (plant.technicalSpecs?.productionCapacity ? 
+                    `${plant.technicalSpecs.productionCapacity.value} ${plant.technicalSpecs.productionCapacity.unit}` : 
+                    'Unknown Capacity');
+                const plantType = plant.type || plant.plantType || 'Green Hydrogen Production';
+                const plantStatus = plant.status || plant.projectStatus || 'unknown';
+                const plantCommissioning = plant.commissioning || 
+                  plant.timeline?.expectedCompletion || 
+                  'TBD';
+                const plantDescription = plant.description || 
+                  plant.projectDescription || 
+                  'Green hydrogen production facility';
+                const coordinates = plant.coordinates || 
+                  (plant.location?.coordinates ? 
+                    [plant.location.coordinates.latitude, plant.location.coordinates.longitude] : 
+                    [20.5937, 78.9629]); // Default to center of India
+                
+                return (
+                  <Marker
+                    key={plant.id || plant._id || `plant-${plant.name}-${plant.location?.city || 'unknown'}-${Date.now()}`}
+                    position={coordinates}
+                    icon={getMarkerIcon(plantStatus)}
+                    eventHandlers={{
+                      click: () => setSelectedPlant(plant),
+                    }}
+                  >
+                    <Popup className="custom-popup">
+                      <div className="popup-content">
+                        <h3 className="popup-title">{plantName}</h3>
+                        <div className="popup-details">
+                          <p><strong>Location:</strong> {plantLocation}</p>
+                          <p><strong>Company:</strong> {plantCompany}</p>
+                          <p><strong>Capacity:</strong> {plantCapacity}</p>
+                          <p><strong>Type:</strong> {plantType}</p>
+                          <p><strong>Status:</strong> 
+                            <span 
+                              className="status-badge"
+                              style={{ color: getStatusColor(plantStatus) }}
+                            >
+                              {getStatusLabel(plantStatus)}
+                            </span>
+                          </p>
+                          <p><strong>Commissioning:</strong> {plantCommissioning}</p>
+                          <p className="popup-description">{plantDescription}</p>
+                        </div>
                       </div>
-                    </div>
-                  </Popup>
-                </Marker>
-              ))}
+                    </Popup>
+                  </Marker>
+                );
+              })}
               
               <MapController center={[20.5937, 78.9629]} zoom={5} />
             </MapContainer>
@@ -393,57 +474,81 @@ const HydrogenPlantsMap = () => {
       </div>
 
       {/* Plant Details Panel */}
-      {selectedPlant && (
-        <div className="plant-details-panel">
-          <div className="container">
-            <div className="details-card">
-              <div className="details-header">
-                <h3>{selectedPlant.name}</h3>
-                <button 
-                  className="close-btn"
-                  onClick={() => setSelectedPlant(null)}
-                >
-                  ×
-                </button>
-              </div>
-              <div className="details-content">
-                <div className="detail-row">
-                  <span className="detail-label">Location:</span>
-                  <span className="detail-value">{selectedPlant.location}</span>
-                </div>
-                <div className="detail-row">
-                  <span className="detail-label">Company:</span>
-                  <span className="detail-value">{selectedPlant.company}</span>
-                </div>
-                <div className="detail-row">
-                  <span className="detail-label">Capacity:</span>
-                  <span className="detail-value">{selectedPlant.capacity}</span>
-                </div>
-                <div className="detail-row">
-                  <span className="detail-label">Type:</span>
-                  <span className="detail-value">{selectedPlant.type}</span>
-                </div>
-                <div className="detail-row">
-                  <span className="detail-label">Status:</span>
-                  <span 
-                    className="detail-value status-badge"
-                    style={{ color: getStatusColor(selectedPlant.status) }}
+      {selectedPlant && (() => {
+        // Handle both old and new data formats for selected plant
+        const plantName = selectedPlant.name || selectedPlant.plantName || 'Unnamed Plant';
+        const plantLocation = selectedPlant.location || 
+          (selectedPlant.location?.city && selectedPlant.location?.state ? 
+            `${selectedPlant.location.city}, ${selectedPlant.location.state}` : 
+            'Unknown Location');
+        const plantCompany = selectedPlant.company || selectedPlant.companyInfo?.name || 'Unknown Company';
+        const plantCapacity = typeof selectedPlant.capacity === 'object' ? 
+          `${selectedPlant.capacity.value} ${selectedPlant.capacity.unit}` : 
+          selectedPlant.capacity || 
+          (selectedPlant.technicalSpecs?.productionCapacity ? 
+            `${selectedPlant.technicalSpecs.productionCapacity.value} ${selectedPlant.technicalSpecs.productionCapacity.unit}` : 
+            'Unknown Capacity');
+        const plantType = selectedPlant.type || selectedPlant.plantType || 'Green Hydrogen Production';
+        const plantStatus = selectedPlant.status || selectedPlant.projectStatus || 'unknown';
+        const plantCommissioning = selectedPlant.commissioning || 
+          selectedPlant.timeline?.expectedCompletion || 
+          'TBD';
+        const plantDescription = selectedPlant.description || 
+          selectedPlant.projectDescription || 
+          'Green hydrogen production facility';
+        
+        return (
+          <div className="plant-details-panel">
+            <div className="container">
+              <div className="details-card">
+                <div className="details-header">
+                  <h3>{plantName}</h3>
+                  <button 
+                    className="close-btn"
+                    onClick={() => setSelectedPlant(null)}
                   >
-                    {getStatusLabel(selectedPlant.status)}
-                  </span>
+                    ×
+                  </button>
                 </div>
-                <div className="detail-row">
-                  <span className="detail-label">Commissioning:</span>
-                  <span className="detail-value">{selectedPlant.commissioning}</span>
-                </div>
-                <div className="detail-description">
-                  <p>{selectedPlant.description}</p>
+                <div className="details-content">
+                  <div className="detail-row">
+                    <span className="detail-label">Location:</span>
+                    <span className="detail-value">{plantLocation}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span className="detail-label">Company:</span>
+                    <span className="detail-value">{plantCompany}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span className="detail-label">Capacity:</span>
+                    <span className="detail-value">{plantCapacity}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span className="detail-label">Type:</span>
+                    <span className="detail-value">{plantType}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span className="detail-label">Status:</span>
+                    <span 
+                      className="detail-value status-badge"
+                      style={{ color: getStatusColor(plantStatus) }}
+                    >
+                      {getStatusLabel(plantStatus)}
+                    </span>
+                  </div>
+                  <div className="detail-row">
+                    <span className="detail-label">Commissioning:</span>
+                    <span className="detail-value">{plantCommissioning}</span>
+                  </div>
+                  <div className="detail-description">
+                    <p>{plantDescription}</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* Legend */}
       <div className="map-legend">

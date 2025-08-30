@@ -9,6 +9,10 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src')
     }
   },
+  define: {
+    // Polyfill process for browser
+    'process.env': {}
+  },
   server: {
     proxy: {
       '/api': {

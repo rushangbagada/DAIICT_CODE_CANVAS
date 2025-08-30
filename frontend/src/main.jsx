@@ -2,7 +2,9 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './AuthContext'
+import { AppProvider } from './context/AppContext.jsx'
 import { ProtectedRoute } from '../components/ProtectedRoute'
+import NotificationManager from './components/NotificationManager.jsx'
 import AboutUs from '../components/AboutUs'
 import Home from '../components/home'
 import Layout from './layout'
@@ -27,16 +29,21 @@ const router = createBrowserRouter([
       { path: '/aboutus', element: <AboutUs /> },
       { path: '/register', element: <Register /> },
       { path: '/login', element: <Login /> },
-      { path: '/otp-verification', element: <OTPVerification /> },
+      { path: '/verify-otp', element: <OTPVerification /> },
       { path: '/reset-password', element: <ResetPassword /> },
-  { path: '/chatbot', element: <ChatBot /> },
-  { path: '/india-map', element: <IndiaPolygonMap /> },
-  { path: '/green-hydrogen', element: <GreenHydrogenHomepage /> },
-  { path: '/admin', element: <AdminDashboard /> },
       { path: '/chatbot', element: <ChatBot /> },
       { path: '/india-map', element: <IndiaPolygonMap /> },
       { path: '/hydrogen-plants', element: <HydrogenPlantsMap /> },
       { path: '/green-hydrogen', element: <GreenHydrogenHomepage /> },
+      { 
+        path: '/admin', 
+        element: (
+          <ProtectedRoute adminOnly>
+            <AdminDashboard />
+          </ProtectedRoute>
+        ) 
+      },
+      { path: '*', element: <NotFound /> }, // Catch-all for 404
     ]
   },
 ])
@@ -44,7 +51,10 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <AppProvider>
+        <NotificationManager />
+        <RouterProvider router={router} />
+      </AppProvider>
     </AuthProvider>
   </StrictMode>,
 )

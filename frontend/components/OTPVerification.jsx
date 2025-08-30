@@ -77,6 +77,13 @@ export default function OTPVerification() {
       const result = await res.json();
 
       if (!res.ok) {
+        console.error('OTP Verification Error:', {
+          status: res.status,
+          message: result.message,
+          email: email,
+          otpLength: data.otp.length,
+          type: type
+        });
         toast.error(result.message || 'Verification failed');
       } else {
         if (type === 'login') {
@@ -143,6 +150,15 @@ export default function OTPVerification() {
   const handleBackToRegister = () => {
     navigate('/register');
   };
+
+  // Development helper - log the URL params for debugging
+  useEffect(() => {
+    console.log('OTP Verification Page Loaded:', {
+      type,
+      email,
+      timestamp: new Date().toISOString()
+    });
+  }, [type, email]);
 
   if (!email || !type) {
     return (

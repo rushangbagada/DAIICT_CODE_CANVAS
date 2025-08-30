@@ -156,28 +156,33 @@ export default function Register() {
               {...register('year', { required: 'Please select your year' })}
             >
               <option value="">Select your year</option>
-              <option value="First Year">First Year</option>
-              <option value="Second Year">Second Year</option>
-              <option value="Third Year">Third Year</option>
-              <option value="Final Year">Final Year</option>
+              <option value="1st">First Year</option>
+              <option value="2nd">Second Year</option>
+              <option value="3rd">Third Year</option>
+              <option value="4th">Final Year</option>
             </select>
             {errors.year && <span className="error-text">{errors.year.message}</span>}
           </div>
           
           <div className="form-group">
             <label htmlFor="department">Department/Major *</label>
-            <input
-              type="text"
-              id="department"
-              {...register('department', { 
-                required: 'Department is required',
-                minLength: {
-                  value: 2,
-                  message: 'Department must be at least 2 characters'
-                }
-              })}
-              placeholder="e.g., Computer Science, Business, Engineering"
-            />
+            <select 
+              id="department" 
+              {...register('department', { required: 'Please select your department' })}
+            >
+              <option value="">Select your department</option>
+              <option value="Computer Engineering">Computer Engineering</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="Electronics & Communication">Electronics & Communication</option>
+              <option value="Electrical Engineering">Electrical Engineering</option>
+              <option value="Mechanical Engineering">Mechanical Engineering</option>
+              <option value="Civil Engineering">Civil Engineering</option>
+              <option value="Chemical Engineering">Chemical Engineering</option>
+              <option value="Biomedical Engineering">Biomedical Engineering</option>
+              <option value="Environmental Engineering">Environmental Engineering</option>
+              <option value="Management Studies">Management Studies</option>
+              <option value="Other">Other</option>
+            </select>
             {errors.department && <span className="error-text">{errors.department.message}</span>}
           </div>
 

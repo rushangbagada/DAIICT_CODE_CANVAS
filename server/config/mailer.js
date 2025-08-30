@@ -1,3 +1,4 @@
+require('dotenv').config();
 const nodemailer = require("nodemailer");
 
 // Check if email credentials are configured
@@ -43,14 +44,46 @@ const emailService = process.env.EMAIL_SERVICE || 'brevo';
 let transporter;
 
 if (hasEmailCredentials) {
-  transporter = nodemailer.createTransport(emailConfig[emailService]);
+  const originalTransporter = nodemailer.createTransport(emailConfig[emailService]);
+  
+  // Create a wrapper to log OTPs
+  transporter = {
+    sendMail: async (options) => {
+      // Extract OTP from email content
+      const extractOTP = (htmlContent) => {
+        // Look for 6-digit numbers in the email content
+        const otpMatch = htmlContent.match(/>\s*(\d{6})\s*</g);
+        if (otpMatch) {
+          return otpMatch[0].replace(/[<>\s]/g, '');
+        }
+        return null;
+      };
+      
+      // Log the email details with OTP
+      const otp = extractOTP(options.html || '');
+      if (otp) {
+        console.log('\n🔔 ===== EMAIL SENDING =====');
+        console.log('📧 To:', options.to);
+        console.log('📝 Subject:', options.subject);
+        console.log('🔢 OTP/TOKEN:', otp);
+        console.log('⏰ Time:', new Date().toISOString());
+        console.log('🔔 =========================\n');
+      }
+      
+      // Send the actual email
+      return await originalTransporter.sendMail(options);
+    },
+    
+    verify: () => originalTransporter.verify()
+  };
   
   // Test the connection
-  transporter.verify(function(error, success) {
+  originalTransporter.verify(function(error, success) {
     if (error) {
       console.log('❌ Email configuration error:', error.message);
     } else {
       console.log('✅ Email server is ready to send messages');
+      console.log('🔔 OTP logging is ENABLED - OTPs will be displayed in terminal');
     }
   });
 } else {
@@ -62,7 +95,7 @@ if (hasEmailCredentials) {
   transporter = {
     sendMail: async (options) => {
       console.log('🔧 DEVELOPMENT MODE: Email would be sent to your_email@example.com');
-      console.log('📧 OTP/Token: 123456 (6-digit format)');
+      console.log('📧 OTP/Token:  (6-digit format)');
       console.log('📧 Subject:', options.subject);
       return Promise.resolve();
     }

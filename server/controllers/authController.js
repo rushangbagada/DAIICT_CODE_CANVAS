@@ -152,6 +152,12 @@ exports.register = async (req, res) => {
     await user.save();
 
     // Send OTP email
+    console.log('\n🔔 ===== REGISTRATION OTP =====');
+    console.log('📧 Email:', email);
+    console.log('🔢 OTP:', otp);
+    console.log('⏰ Expires:', new Date(otpExpires).toISOString());
+    console.log('🔔 ============================\n');
+    
     await sendOTPEmail(email, otp, "Login OTP - Campus Sports Hub", "login");
 
     res.status(201).json({ 
@@ -347,5 +353,35 @@ exports.resetPassword = async (req, res) => {
   } catch (err) {
     console.error('Reset password error:', err);
     res.status(500).json({ message: "Server error during password reset" });
+  }
+};
+
+// Debug endpoint - only for development
+exports.debugGetOTP = async (req, res) => {
+  // Only allow in development
+  if (process.env.NODE_ENV === 'production') {
+    return res.status(403).json({ message: "Not available in production" });
+  }
+  
+  try {
+    const { email } = req.params;
+    const user = await User.findOne({ email }).select('email otp otpExpires resetToken resetExpires');
+    
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    
+    res.json({
+      email: user.email,
+      otp: user.otp,
+      otpExpires: user.otpExpires ? new Date(user.otpExpires) : null,
+      isOtpExpired: user.otpExpires ? user.otpExpires < Date.now() : null,
+      resetToken: user.resetToken,
+      resetExpires: user.resetExpires ? new Date(user.resetExpires) : null,
+      isResetExpired: user.resetExpires ? user.resetExpires < Date.now() : null
+    });
+  } catch (err) {
+    console.error('Debug OTP error:', err);
+    res.status(500).json({ message: "Server error" });
   }
 };

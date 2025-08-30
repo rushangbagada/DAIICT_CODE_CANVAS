@@ -4,6 +4,7 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const hydrogenPlantsRoutes = require("./routes/hydrogenPlants");
 
 dotenv.config();
 const app = express();
@@ -18,9 +19,10 @@ connectDB();
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/hydrogen-plants", hydrogenPlantsRoutes);
 
 // Health check endpoint
-app.get("/", (req, res) => res.send("Sports Hub Authentication API is running"));
+app.get("/", (req, res) => res.send("Green Hydrogen Platform API is running"));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -34,4 +36,4 @@ app.use((req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Authentication Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Green Hydrogen Platform Server running on port ${PORT}`));
