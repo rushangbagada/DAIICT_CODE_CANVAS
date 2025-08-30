@@ -63,7 +63,7 @@ class Settings:
     # Reverse Geocoding Configuration
     ENABLE_REVERSE_GEOCODING: bool = True
     GEOCODING_TIMEOUT: int = 10  # seconds
-    GEOCODING_RATE_LIMIT: float = 1.0  # seconds between requests
+    GEOCODING_RATE_LIMIT: float = 1.2  # seconds between requests
     
     # Logging Configuration
     LOG_LEVEL: str = "INFO"
