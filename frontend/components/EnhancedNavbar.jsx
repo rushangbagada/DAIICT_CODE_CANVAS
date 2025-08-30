@@ -94,6 +94,15 @@ const EnhancedNavbar = () => {
           </Link>
 
           <Link 
+            to="/hydrogen-plants" 
+            className={`nav-link ${isActiveLink('/hydrogen-plants') ? 'active' : ''}`}
+          >
+            <span className="nav-icon">⚡</span>
+            <span className="nav-text">H₂ Plants</span>
+            <div className="nav-glow"></div>
+          </Link>
+
+          <Link 
             to="/chatbot" 
             className={`nav-link ${isActiveLink('/chatbot') ? 'active' : ''}`}
           >
@@ -209,6 +218,15 @@ const EnhancedNavbar = () => {
           >
             <span className="mobile-icon">🗺️</span>
             <span>India Map</span>
+          </Link>
+
+          <Link 
+            to="/hydrogen-plants" 
+            className={`mobile-nav-link ${isActiveLink('/hydrogen-plants') ? 'active' : ''}`}
+            onClick={closeMobileMenu}
+          >
+            <span className="mobile-icon">⚡</span>
+            <span>H₂ Plants</span>
           </Link>
 
           <Link 
