@@ -1,0 +1,43 @@
+/* IndiaPolygonMap Component Styles */
+
+/* Button hover effects */
+.btn-hover:hover {
+  background: #f9fafb !important;
+  border-color: #9ca3af !important;
+}
+
+.btn-primary-hover:hover {
+  background: #1e40af !important;
+  border-color: #1e40af !important;
+}
+
+/* Button disabled states */
+.btn-disabled:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  background: #f3f4f6 !important;
+}
+
+.btn-primary-disabled:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  background: #6b7280 !important;
+}
+
+/* Input focus effects */
+.input-focus:focus {
+  outline: none !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Export menu item last child */
+.export-menu-item:last-child {
+  border-bottom: none !important;
+}
+
+/* Export menu item hover */
+.export-menu-item:hover {
+  background: #f9fafb !important;
+  border-color: #9ca3af !important;
+}
