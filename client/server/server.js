@@ -12,8 +12,24 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',  // Vite dev server
+    'http://localhost:3000',  // React dev server
+    'https://daiict-code-canvas-227d-k36yxmdes-rushangbagadas-projects.vercel.app',  // Old Vercel URL
+    'https://daiict-code-canvas-kx5kd1ckv-rushangbagadas-projects.vercel.app',  // Previous Vercel URL
+    'https://daiict-code-canvas-picci8dnx-rushangbagadas-projects.vercel.app',  // Latest Vercel URL
+    'https://daiict-code-canvas.vercel.app'  // Production Vercel URL
+  ],
+  credentials: true
+}));
 app.use(express.json());
+
+// Debug middleware - log all requests
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path} - ${new Date().toISOString()}`);
+  next();
+});
 
 // Connect to Database
 connectDB();
@@ -24,13 +40,28 @@ app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/hydrogen-plants", hydrogenPlantsRoutes);
 app.use("/api/email", emailRoutes);
-app.use("/api/ml", mlRoutes);
+app.use("/ml-api/ml", mlRoutes);
+
+// Test route for debugging
+app.get("/test", (req, res) => {
+  res.json({ 
+    message: "Express server is working!", 
+    timestamp: new Date().toISOString(),
+    routes: [
+      "/api/auth/*",
+      "/api/admin/*", 
+      "/api/hydrogen-plants/*",
+      "/api/email/*",
+      "/ml-api/ml/*"
+    ]
+  });
+});
 
 // Health check endpoint
-app.get("/", (req, res) => res.send("Green Hydrogen Platform API is running"));
+app.get("/", (req, res) => res.send("Green Hydrogen Platform API is running - Updated " + new Date().toISOString()));
 
 // ML model status endpoint
-app.get("/api/ml/status", (req, res) => {
+app.get("/ml-api/ml/status", (req, res) => {
   res.json({
     status: "active",
     model: "hydrogen-site-recommender",
@@ -47,6 +78,7 @@ app.use((err, req, res, next) => {
 
 // 404 handler - use a proper middleware function
 app.use((req, res) => {
+  console.log(`404 - Route not found: ${req.method} ${req.path}`);
   res.status(404).json({ message: "Route not found" });
 });
 

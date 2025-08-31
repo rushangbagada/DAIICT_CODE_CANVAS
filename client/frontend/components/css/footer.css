@@ -20,6 +20,19 @@ body {
   grid-template-columns: 1fr 1fr 1fr;
   gap: 40px;
 }
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+}
+@media (max-width: 600px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
 
 .footer-logo .logo-wrapper {
   display: flex;

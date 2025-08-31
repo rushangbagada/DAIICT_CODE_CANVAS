@@ -23,7 +23,17 @@ app = FastAPI(
 # CORS middleware for frontend integration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:3000", "http://127.0.0.1:5173"],
+    allow_origins=[
+        "http://localhost:3000", 
+        "http://localhost:5173", 
+        "http://127.0.0.1:3000", 
+        "http://127.0.0.1:5173",
+        "https://daiict-code-canvas.vercel.app",
+        "https://daiict-code-canvas-git-main-rushangs-projects.vercel.app", 
+        "https://daiict-code-canvas-6nj81dxkq-rushangs-projects.vercel.app",
+        "https://your-backend-url.onrender.com",  # Replace with your actual backend URL
+        "*"  # Allow all origins for now
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -370,4 +380,6 @@ async def startup_event():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    import os
+    port = int(os.environ.get("PORT", 8001))
+    uvicorn.run(app, host="0.0.0.0", port=port)

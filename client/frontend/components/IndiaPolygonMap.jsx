@@ -191,8 +191,10 @@ export default function IndiaPolygonMap() {
   // Function to call backend server ML endpoint
   const callMLAPI = async (polygonPoints) => {
     try {
-      // Call backend server on port 5000, which will forward to ML service
-      const response = await fetch('http://localhost:5000/api/ml/predict', {
+      console.log('Calling ML API with', polygonPoints.length, 'points');
+      
+      // Call backend server ML endpoint via proxy
+      const response = await fetch('/ml-api/ml/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -206,6 +208,8 @@ export default function IndiaPolygonMap() {
         })
       });
 
+      console.log('ML API Response Status:', response.status);
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         const errorMessage = errorData.message || errorData.error || `HTTP ${response.status}`;
@@ -213,6 +217,7 @@ export default function IndiaPolygonMap() {
       }
 
       const result = await response.json();
+      console.log('ML API Success:', result);
       return result;
     } catch (error) {
       console.error('Backend API call failed:', error);

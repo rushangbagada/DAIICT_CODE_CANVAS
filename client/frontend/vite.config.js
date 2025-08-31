@@ -16,7 +16,11 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: process.env.NODE_ENV === 'production' ? 'https://daiict-code-canvas-1.onrender.com' : 'http://localhost:5000',
+        changeOrigin: true
+      },
+      '/ml-api': {
+        target: process.env.NODE_ENV === 'production' ? 'https://daiict-code-canvas-1.onrender.com' : 'http://localhost:5000',
         changeOrigin: true
       }
     }
