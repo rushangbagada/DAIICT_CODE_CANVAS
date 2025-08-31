@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import * as THREE from 'three';
@@ -365,6 +366,7 @@ const AnimatedCounter = ({ target, duration = 2000, label, symbol = "" }) => {
 };
 
 const GreenHydrogenHomepage = () => {
+  const navigate = useNavigate();
   const heroRef = useRef(null);
   const aboutRef = useRef(null);
   const advantagesRef = useRef(null);
@@ -372,6 +374,14 @@ const GreenHydrogenHomepage = () => {
   const contactRef = useRef(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState('home');
+
+  const handleExploreSolutions = () => {
+    navigate('/india-map');
+  };
+
+  const handleWatchDemo = () => {
+    navigate('/threeDmodels');
+  };
 
   // Handle scroll progress and active section
   useEffect(() => {
@@ -552,8 +562,8 @@ const GreenHydrogenHomepage = () => {
               Zero emissions, infinite possibilities.
             </p>
             <div className="hero-cta">
-              <button className="cta-button primary">Explore Solutions</button>
-              <button className="cta-button secondary">Watch Demo</button>
+              <button className="cta-button primary" onClick={handleExploreSolutions}>Explore Solutions</button>
+              <button className="cta-button secondary" onClick={handleWatchDemo}>Watch Demo</button>
             </div>
           </div>
           <div className="hero-model floating-element">
@@ -695,15 +705,15 @@ const GreenHydrogenHomepage = () => {
               <div className="contact-details">
                 <div className="contact-item">
                   <span className="contact-icon">📧</span>
-                  <span>info@greenhydrogen.com</span>
+                  <span>contactus@greenhydrogen.com</span>
                 </div>
                 <div className="contact-item">
                   <span className="contact-icon">📞</span>
-                  <span>+1 (555) 123-4567</span>
+                  <span>+91 9726059009</span>
                 </div>
                 <div className="contact-item">
                   <span className="contact-icon">📍</span>
-                  <span>123 Clean Energy Blvd, Future City</span>
+                  <span>Gujarat, India</span>
                 </div>
               </div>
             </div>

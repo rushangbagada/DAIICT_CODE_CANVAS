@@ -19,6 +19,7 @@ import HydrogenPlantsMap from '../components/HydrogenPlantsMap'
 import MLResultsPage from '../components/MLResultsPage'
 import AdminDashboard from '../components/AdminDashboard'
 import PowerPlantPDFGenerator from '../components/PowerPlantPDFGenerator'
+import ThreeDModels from '../components/ThreeDModels'
 
 // Single source of truth for all routing - using React Router DOM v6+ createBrowserRouter
 const router = createBrowserRouter([
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
       { path: '/ml-results', element: <MLResultsPage /> },
       { path: '/hydrogen-plants', element: <HydrogenPlantsMap /> },
       { path: '/green-hydrogen', element: <GreenHydrogenHomepage /> },
+      
       { 
         path: '/admin', 
         element: (
@@ -47,6 +49,7 @@ const router = createBrowserRouter([
         ) 
       },
       { path: '/pdf-generator', element: <PowerPlantPDFGenerator /> },
+      { path: '/threeDmodels', element: <ThreeDModels /> },
     ],
     errorElement: <NotFound />
   },

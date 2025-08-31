@@ -681,6 +681,41 @@ const HydrogenPlantsMap = () => {
           </div>
         </div>
       </div>
+
+      {/* 3D Models Section */}
+      <div className="threeDmodels-section">
+        <div className="container">
+          <div className="threeDmodels-card" onClick={() => navigate('/threeDmodels')}>
+            <div className="threeDmodels-background">
+              <div className="floating-icons">
+                <div className="floating-icon">🔬</div>
+                <div className="floating-icon">⚛️</div>
+                <div className="floating-icon">🧪</div>
+                <div className="floating-icon">🔋</div>
+              </div>
+            </div>
+            <div className="threeDmodels-content">
+              <div className="threeDmodels-icon">🎯</div>
+              <h2>Explore 3D Models</h2>
+              <p>
+                Dive into interactive 3D visualizations of Renewable Energy Systems, fuel cells, and 
+                production processes. Experience cutting-edge molecular structures and understand 
+                the science behind green hydrogen technology.
+              </p>
+              <div className="threeDmodels-features">
+                <span className="feature-badge">🎮 Interactive Models</span>
+                <span className="feature-badge">⚛️ Molecular Visualization</span>
+                <span className="feature-badge">🔬 Scientific Accuracy</span>
+                <span className="feature-badge">🌟 Real-time Rendering</span>
+              </div>
+              <div className="threeDmodels-button">
+                <span className="button-text">Launch 3D Experience</span>
+                <span className="button-arrow">🚀</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
