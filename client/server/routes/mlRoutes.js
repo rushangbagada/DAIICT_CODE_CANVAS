@@ -137,7 +137,7 @@ async function callHydrogenMLModel(coordinates) {
     const formattedCoords = coordinates.map(coord => [coord.lat, coord.lng]);
     
     // Call the ML service running on port 8000
-    const response = await fetch('http://localhost:8000/recommend_sites', {
+    const response = await fetch('http://localhost:8000/api/v1/recommend_sites', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

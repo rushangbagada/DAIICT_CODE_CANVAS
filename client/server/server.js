@@ -12,7 +12,16 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',  // Vite dev server
+    'http://localhost:3000',  // React dev server
+    'https://daiict-code-canvas-227d-k36yxmdes-rushangbagadas-projects.vercel.app',  // Old Vercel URL
+    'https://daiict-code-canvas-kx5kd1ckv-rushangbagadas-projects.vercel.app',  // Previous Vercel URL
+    'https://daiict-code-canvas-picci8dnx-rushangbagadas-projects.vercel.app'  // Latest Vercel URL
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 // Connect to Database
@@ -24,13 +33,13 @@ app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/hydrogen-plants", hydrogenPlantsRoutes);
 app.use("/api/email", emailRoutes);
-app.use("/api/ml", mlRoutes);
+app.use("/ml-api/ml", mlRoutes);
 
 // Health check endpoint
 app.get("/", (req, res) => res.send("Green Hydrogen Platform API is running"));
 
 // ML model status endpoint
-app.get("/api/ml/status", (req, res) => {
+app.get("/ml-api/ml/status", (req, res) => {
   res.json({
     status: "active",
     model: "hydrogen-site-recommender",
