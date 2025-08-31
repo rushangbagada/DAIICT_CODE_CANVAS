@@ -141,7 +141,7 @@ async function callHydrogenMLModel(coordinates) {
     const formattedCoords = coordinates.map(coord => [coord.lat, coord.lng]);
     
     // Call the ML service using configured backend URL
-    const mlApiUrl = `${ML_BACKEND_URL}/api/v1/recommend_sites`;
+    const mlApiUrl = `${ML_BACKEND_URL}/recommend_sites`;
     console.log('Calling ML API at:', mlApiUrl);
     console.log('Sending coordinates:', formattedCoords.length, 'points');
     
