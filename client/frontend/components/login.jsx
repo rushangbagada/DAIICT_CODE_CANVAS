@@ -78,8 +78,8 @@ export default function Login() {
     return (
       <div className="login-container">
         <div className="login-card">
-          <div className="login-icon">🔐</div>
-          <h2>Reset Password</h2>
+        <div className="login-icon">H₂</div>
+        <h2>Reset Password</h2>
           
           <div className="forgot-password-form">
             <p>Enter your email to receive a reset token</p>
@@ -117,8 +117,8 @@ export default function Login() {
   return (
     <div className="login-container">
       <div className="login-card">
-        <div className="login-icon">🔑</div>
-        <h2>Login to Campus Sports Hub</h2>
+        <div className="login-icon">H₂</div>
+        <h2>Green Hydrogen Portal</h2>
         <form onSubmit={handleSubmit(onLoginSubmit)} className="login-form">
           <div className="form-group">
             <label htmlFor="email">Email</label>

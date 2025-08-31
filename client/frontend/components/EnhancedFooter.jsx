@@ -51,7 +51,7 @@ const EnhancedFooter = () => {
 
           {/* Navigation Links */}
           <div className="footer-section">
-            <h3 className="section-title">Navigation</h3>
+            <h3 className="section-title">Explore</h3>
             <ul className="footer-links">
               <li>
                 <Link to="/" className="footer-link">
@@ -72,6 +72,12 @@ const EnhancedFooter = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/hydrogen-plants" className="footer-link">
+                  <span className="link-icon">⚡</span>
+                  <span>H₂ Plants</span>
+                </Link>
+              </li>
+              <li>
                 <Link to="/chatbot" className="footer-link">
                   <span className="link-icon">💬</span>
                   <span>ChatBot</span>
@@ -80,94 +86,66 @@ const EnhancedFooter = () => {
             </ul>
           </div>
 
-          {/* Solutions */}
+          {/* Technology & Tools */}
           <div className="footer-section">
-            <h3 className="section-title">Solutions</h3>
+            <h3 className="section-title">Technology</h3>
             <ul className="footer-links">
               <li>
-                <a href="#industrial" className="footer-link">
-                  <span className="link-icon">🏭</span>
-                  <span>Industrial Applications</span>
-                </a>
+                <Link to="/threeDmodels" className="footer-link">
+                  <span className="link-icon">🔬</span>
+                  <span>3D Models</span>
+                </Link>
               </li>
               <li>
-                <a href="#transport" className="footer-link">
-                  <span className="link-icon">🚛</span>
-                  <span>Transportation</span>
-                </a>
+                <Link to="/ml-results" className="footer-link">
+                  <span className="link-icon">🤖</span>
+                  <span>ML Analysis</span>
+                </Link>
               </li>
               <li>
-                <a href="#storage" className="footer-link">
-                  <span className="link-icon">🔋</span>
-                  <span>Energy Storage</span>
-                </a>
+                <Link to="/pdf-generator" className="footer-link">
+                  <span className="link-icon">📄</span>
+                  <span>PDF Reports</span>
+                </Link>
               </li>
               <li>
-                <a href="#power" className="footer-link">
-                  <span className="link-icon">⚡</span>
-                  <span>Power Generation</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Resources */}
-          <div className="footer-section">
-            <h3 className="section-title">Resources</h3>
-            <ul className="footer-links">
-              <li>
-                <a href="#research" className="footer-link">
+                <a href="#analytics" className="footer-link">
                   <span className="link-icon">📊</span>
-                  <span>Research Papers</span>
-                </a>
-              </li>
-              <li>
-                <a href="#case-studies" className="footer-link">
-                  <span className="link-icon">📋</span>
-                  <span>Case Studies</span>
-                </a>
-              </li>
-              <li>
-                <a href="#blog" className="footer-link">
-                  <span className="link-icon">📝</span>
-                  <span>Technology Blog</span>
-                </a>
-              </li>
-              <li>
-                <a href="#reports" className="footer-link">
-                  <span className="link-icon">📈</span>
-                  <span>Industry Reports</span>
+                  <span>Data Analytics</span>
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Contact Info */}
-          <div className="footer-section contact-section">
-            <h3 className="section-title">Get in Touch</h3>
-            <div className="contact-info">
-              <div className="contact-item">
-                <span className="contact-icon">📧</span>
-                <div className="contact-details">
-                  <span className="contact-label">Email</span>
-                  <span className="contact-value">info@greenhydrogen.com</span>
-                </div>
-              </div>
-              <div className="contact-item">
-                <span className="contact-icon">📞</span>
-                <div className="contact-details">
-                  <span className="contact-label">Phone</span>
-                  <span className="contact-value">+1 (555) 123-4567</span>
-                </div>
-              </div>
-              <div className="contact-item">
-                <span className="contact-icon">📍</span>
-                <div className="contact-details">
-                  <span className="contact-label">Address</span>
-                  <span className="contact-value">123 Clean Energy Blvd<br />Future City, FC 12345</span>
-                </div>
-              </div>
-            </div>
+          {/* Quick Access - User Functions */}
+          <div className="footer-section">
+            <h3 className="section-title">Quick Access</h3>
+            <ul className="footer-links">
+              <li>
+                <Link to="/login" className="footer-link">
+                  <span className="link-icon">🔑</span>
+                  <span>Login</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/register" className="footer-link">
+                  <span className="link-icon">👤</span>
+                  <span>Register</span>
+                </Link>
+              </li>
+              <li>
+                <a href="#contact" className="footer-link">
+                  <span className="link-icon">📧</span>
+                  <span>Contact</span>
+                </a>
+              </li>
+              <li>
+                <a href="#support" className="footer-link">
+                  <span className="link-icon">🆘</span>
+                  <span>Support</span>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 

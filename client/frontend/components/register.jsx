@@ -29,9 +29,7 @@ export default function Register() {
           name: data.fullName,
           email: data.email,
           password: data.password,
-          mobile: data.mobile,
-          year: data.year,
-          department: data.department
+          mobile: data.mobile
         })
       });
       const result = await res.json();
@@ -55,16 +53,16 @@ export default function Register() {
     <div className="register-container">
       {/* Header Section */}
       <header className="header-section">
-        <div className="header-icon">👤</div>
-        <h1>Join Campus Sports Hub</h1>
-        <p>Start your athletic journey with us today</p>
+        <div className="header-icon">H₂</div>
+        <h1>Join Green Hydrogen</h1>
+        <p>Be part of the clean energy revolution</p>
       </header>
 
       {/* Main Form */}
       <main className="form-container">
-        <div className="form-icon">👤</div>
-        <h2>Personal Information</h2>
-        <p className="form-subtitle">Tell us about yourself</p>
+        <div className="form-icon">H₂</div>
+        <h2>Account Information</h2>
+        <p className="form-subtitle">Create your green hydrogen account</p>
         
         <form onSubmit={handleSubmit(onRegisterSubmit)} className="register-form">
           <div className="form-group">
@@ -96,7 +94,7 @@ export default function Register() {
                   message: 'Invalid email address'
                 }
               })}
-              placeholder="your.email@college.edu"
+              placeholder="Enter your email address"
             />
             {errors.email && <span className="error-text">{errors.email.message}</span>}
           </div>
@@ -147,43 +145,6 @@ export default function Register() {
               placeholder="Enter 10 digit number"
             />
             {errors.mobile && <span className="error-text">{errors.mobile.message}</span>}
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="year">Academic Year *</label>
-            <select 
-              id="year" 
-              {...register('year', { required: 'Please select your year' })}
-            >
-              <option value="">Select your year</option>
-              <option value="1st">First Year</option>
-              <option value="2nd">Second Year</option>
-              <option value="3rd">Third Year</option>
-              <option value="4th">Final Year</option>
-            </select>
-            {errors.year && <span className="error-text">{errors.year.message}</span>}
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="department">Department/Major *</label>
-            <select 
-              id="department" 
-              {...register('department', { required: 'Please select your department' })}
-            >
-              <option value="">Select your department</option>
-              <option value="Computer Engineering">Computer Engineering</option>
-              <option value="Information Technology">Information Technology</option>
-              <option value="Electronics & Communication">Electronics & Communication</option>
-              <option value="Electrical Engineering">Electrical Engineering</option>
-              <option value="Mechanical Engineering">Mechanical Engineering</option>
-              <option value="Civil Engineering">Civil Engineering</option>
-              <option value="Chemical Engineering">Chemical Engineering</option>
-              <option value="Biomedical Engineering">Biomedical Engineering</option>
-              <option value="Environmental Engineering">Environmental Engineering</option>
-              <option value="Management Studies">Management Studies</option>
-              <option value="Other">Other</option>
-            </select>
-            {errors.department && <span className="error-text">{errors.department.message}</span>}
           </div>
 
           <button type="submit" className="submit-btn" disabled={loading}>
