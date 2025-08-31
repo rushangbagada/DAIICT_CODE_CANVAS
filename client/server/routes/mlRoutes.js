@@ -4,6 +4,10 @@ const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
+// ML Backend Configuration
+const ML_BACKEND_URL = process.env.ML_BACKEND_URL || 'https://your-ml-backend-url.onrender.com' || 'http://localhost:8000';
+console.log('ML Backend URL configured:', ML_BACKEND_URL);
+
 // Test endpoint for debugging
 router.get('/test', (req, res) => {
   try {
@@ -136,8 +140,12 @@ async function callHydrogenMLModel(coordinates) {
     // ML service expects [[lat, lon], [lat, lon], ...] format
     const formattedCoords = coordinates.map(coord => [coord.lat, coord.lng]);
     
-    // Call the ML service running on port 8000
-    const response = await fetch('http://localhost:8000/api/v1/recommend_sites', {
+    // Call the ML service using configured backend URL
+    const mlApiUrl = `${ML_BACKEND_URL}/api/v1/recommend_sites`;
+    console.log('Calling ML API at:', mlApiUrl);
+    console.log('Sending coordinates:', formattedCoords.length, 'points');
+    
+    const response = await fetch(mlApiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -147,13 +155,30 @@ async function callHydrogenMLModel(coordinates) {
       })
     });
 
+    console.log('ML API Response Status:', response.status);
+    console.log('ML API Response Headers:', Object.fromEntries(response.headers.entries()));
+
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
+      const errorText = await response.text();
+      console.log('ML API Error Response:', errorText);
+      
+      let errorData;
+      try {
+        errorData = JSON.parse(errorText);
+      } catch {
+        errorData = { message: errorText };
+      }
+      
       const errorMessage = errorData.detail || errorData.message || `HTTP ${response.status}`;
       throw new Error(`ML API error: ${response.status} - ${errorMessage}`);
     }
 
     const result = await response.json();
+    console.log('ML API Success Response:', {
+      message: result.message,
+      sitesCount: result.recommended_sites?.length || 0,
+      totalFound: result.total_sites_found
+    });
     
     // Validate ML result structure
     if (!result || typeof result !== 'object') {
@@ -163,6 +188,12 @@ async function callHydrogenMLModel(coordinates) {
     return result;
   } catch (error) {
     console.error('ML API call failed:', error);
+    
+    // Enhanced error details
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      throw new Error(`ML service connection failed: ${ML_BACKEND_URL} is not accessible`);
+    }
+    
     throw new Error(`ML processing failed: ${error.message}`);
   }
 }
@@ -199,7 +230,7 @@ router.get('/status', (req, res) => {
         coordinateSystem: 'WGS84 (decimal degrees)'
       },
       system: {
-        mlModelPath: 'Using HTTP API (port 8000)',
+        mlModelPath: `Using HTTP API (${ML_BACKEND_URL})`,
         pythonScript: 'Not Required (HTTP API)',
         pythonAvailable: 'Not Required (HTTP API)'
       }
@@ -255,13 +286,57 @@ router.get('/info', (req, res) => {
 });
 
 // Health check for ML service
-router.get('/health', (req, res) => {
-  res.json({
-    status: 'healthy',
-    service: 'ML Model Service',
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime()
-  });
+router.get('/health', async (req, res) => {
+  try {
+    // Test connection to ML backend
+    const mlHealthUrl = `${ML_BACKEND_URL}/health`;
+    
+    const response = await fetch(mlHealthUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
+    if (response.ok) {
+      const mlHealth = await response.json();
+      res.json({
+        status: 'healthy',
+        service: 'ML Model Service',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        ml_backend: {
+          url: ML_BACKEND_URL,
+          status: 'connected',
+          response: mlHealth
+        }
+      });
+    } else {
+      res.status(503).json({
+        status: 'unhealthy',
+        service: 'ML Model Service', 
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        ml_backend: {
+          url: ML_BACKEND_URL,
+          status: 'disconnected',
+          error: `HTTP ${response.status}`
+        }
+      });
+    }
+  } catch (error) {
+    res.status(503).json({
+      status: 'unhealthy',
+      service: 'ML Model Service',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      ml_backend: {
+        url: ML_BACKEND_URL,
+        status: 'error',
+        error: error.message
+      }
+    });
+  }
 });
 
 module.exports = router;

@@ -25,6 +25,12 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Debug middleware - log all requests
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path} - ${new Date().toISOString()}`);
+  next();
+});
+
 // Connect to Database
 connectDB();
 
@@ -35,6 +41,21 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/hydrogen-plants", hydrogenPlantsRoutes);
 app.use("/api/email", emailRoutes);
 app.use("/ml-api/ml", mlRoutes);
+
+// Test route for debugging
+app.get("/test", (req, res) => {
+  res.json({ 
+    message: "Express server is working!", 
+    timestamp: new Date().toISOString(),
+    routes: [
+      "/api/auth/*",
+      "/api/admin/*", 
+      "/api/hydrogen-plants/*",
+      "/api/email/*",
+      "/ml-api/ml/*"
+    ]
+  });
+});
 
 // Health check endpoint
 app.get("/", (req, res) => res.send("Green Hydrogen Platform API is running"));
@@ -57,6 +78,7 @@ app.use((err, req, res, next) => {
 
 // 404 handler - use a proper middleware function
 app.use((req, res) => {
+  console.log(`404 - Route not found: ${req.method} ${req.path}`);
   res.status(404).json({ message: "Route not found" });
 });
 
