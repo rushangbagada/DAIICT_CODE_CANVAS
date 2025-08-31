@@ -5,8 +5,14 @@ const path = require('path');
 const fs = require('fs');
 
 // ML Backend Configuration
-const ML_BACKEND_URL = process.env.ML_BACKEND_URL || 'http://localhost:8001';
+// Set ML_BACKEND_URL environment variable in Render dashboard
+const ML_BACKEND_URL = process.env.ML_BACKEND_URL || 'https://your-ml-backend-url.onrender.com';
 console.log('ML Backend URL configured:', ML_BACKEND_URL);
+
+// Validate ML backend URL on startup
+if (ML_BACKEND_URL.includes('your-ml-backend-url')) {
+  console.warn('⚠️ ML_BACKEND_URL not configured! Please set environment variable ML_BACKEND_URL in Render dashboard');
+}
 
 // Test endpoint for debugging
 router.get('/test', (req, res) => {
