@@ -18,7 +18,8 @@ app.use(cors({
     'http://localhost:3000',  // React dev server
     'https://daiict-code-canvas-227d-k36yxmdes-rushangbagadas-projects.vercel.app',  // Old Vercel URL
     'https://daiict-code-canvas-kx5kd1ckv-rushangbagadas-projects.vercel.app',  // Previous Vercel URL
-    'https://daiict-code-canvas-picci8dnx-rushangbagadas-projects.vercel.app'  // Latest Vercel URL
+    'https://daiict-code-canvas-picci8dnx-rushangbagadas-projects.vercel.app',  // Latest Vercel URL
+    'https://daiict-code-canvas.vercel.app'  // Production Vercel URL
   ],
   credentials: true
 }));

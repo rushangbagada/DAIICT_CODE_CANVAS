@@ -25,9 +25,8 @@ class Settings:
         "http://127.0.0.1:3000",
         "http://127.0.0.1:5173",
         "http://localhost:5000",    # Express backend
-        "https://daiict-code-canvas-227d-k36yxmdes-rushangbagadas-projects.vercel.app",  # Old Vercel URL
-        "https://daiict-code-canvas-kx5kd1ckv-rushangbagadas-projects.vercel.app",  # Previous Vercel URL
-        "https://daiict-code-canvas-picci8dnx-rushangbagadas-projects.vercel.app",  # Latest Vercel URL
+         # Latest Vercel URL
+        "https://daiict-code-canvas.vercel.app",  # Production Vercel URL
     ]
     
     # ML Model Configuration
