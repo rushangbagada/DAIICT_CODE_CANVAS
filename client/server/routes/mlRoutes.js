@@ -3,6 +3,7 @@ const router = express.Router();
 const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
+const axios = require('axios');
 
 // ML Backend Configuration
 // Set ML_BACKEND_URL environment variable in Render dashboard
@@ -146,35 +147,19 @@ async function callHydrogenMLModel(coordinates) {
     console.log('Calling ML API at:', mlApiUrl);
     console.log('Sending coordinates:', formattedCoords.length, 'points');
     
-    const response = await fetch(mlApiUrl, {
-      method: 'POST',
+    const response = await axios.post(mlApiUrl, {
+      polygon_points: formattedCoords
+    }, {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        polygon_points: formattedCoords
-      })
+      timeout: 30000 // 30 second timeout
     });
 
     console.log('ML API Response Status:', response.status);
-    console.log('ML API Response Headers:', Object.fromEntries(response.headers.entries()));
+    console.log('ML API Response Headers:', response.headers);
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.log('ML API Error Response:', errorText);
-      
-      let errorData;
-      try {
-        errorData = JSON.parse(errorText);
-      } catch {
-        errorData = { message: errorText };
-      }
-      
-      const errorMessage = errorData.detail || errorData.message || `HTTP ${response.status}`;
-      throw new Error(`ML API error: ${response.status} - ${errorMessage}`);
-    }
-
-    const result = await response.json();
+    const result = response.data;
     console.log('ML API Success Response:', {
       message: result.message,
       sitesCount: result.recommended_sites?.length || 0,
@@ -190,12 +175,19 @@ async function callHydrogenMLModel(coordinates) {
   } catch (error) {
     console.error('ML API call failed:', error);
     
-    // Enhanced error details
-    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+    // Enhanced error details for axios
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      const errorMessage = error.response.data?.detail || error.response.data?.message || `HTTP ${error.response.status}`;
+      throw new Error(`ML API error: ${error.response.status} - ${errorMessage}`);
+    } else if (error.request) {
+      // The request was made but no response was received
       throw new Error(`ML service connection failed: ${ML_BACKEND_URL} is not accessible`);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      throw new Error(`ML processing failed: ${error.message}`);
     }
-    
-    throw new Error(`ML processing failed: ${error.message}`);
   }
 }
 
@@ -292,39 +284,25 @@ router.get('/health', async (req, res) => {
     // Test connection to ML backend
     const mlHealthUrl = `${ML_BACKEND_URL}/health`;
     
-    const response = await fetch(mlHealthUrl, {
-      method: 'GET',
+    const response = await axios.get(mlHealthUrl, {
       headers: {
         'Content-Type': 'application/json',
-      }
+      },
+      timeout: 10000 // 10 second timeout
     });
 
-    if (response.ok) {
-      const mlHealth = await response.json();
-      res.json({
-        status: 'healthy',
-        service: 'ML Model Service',
-        timestamp: new Date().toISOString(),
-        uptime: process.uptime(),
-        ml_backend: {
-          url: ML_BACKEND_URL,
-          status: 'connected',
-          response: mlHealth
-        }
-      });
-    } else {
-      res.status(503).json({
-        status: 'unhealthy',
-        service: 'ML Model Service', 
-        timestamp: new Date().toISOString(),
-        uptime: process.uptime(),
-        ml_backend: {
-          url: ML_BACKEND_URL,
-          status: 'disconnected',
-          error: `HTTP ${response.status}`
-        }
-      });
-    }
+    const mlHealth = response.data;
+    res.json({
+      status: 'healthy',
+      service: 'ML Model Service',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      ml_backend: {
+        url: ML_BACKEND_URL,
+        status: 'connected',
+        response: mlHealth
+      }
+    });
   } catch (error) {
     res.status(503).json({
       status: 'unhealthy',
