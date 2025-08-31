@@ -191,8 +191,8 @@ export default function IndiaPolygonMap() {
   // Function to call backend server ML endpoint
   const callMLAPI = async (polygonPoints) => {
     try {
-      // Call backend server on port 5000, which will forward to ML service
-      const response = await fetch('http://localhost:5000/api/ml/predict', {
+      // Call backend server ML endpoint via proxy
+      const response = await fetch('/ml-api/ml/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
