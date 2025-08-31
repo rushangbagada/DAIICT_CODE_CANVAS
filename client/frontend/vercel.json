@@ -6,7 +6,7 @@
     },
     {
       "source": "/ml-api/(.*)",
-      "destination": "https://daiict-code-canvas.onrender.com/ml-api/$1"
+      "destination": "https://daiict-code-canvas-1.onrender.com/ml-api/$1"
     }
   ]
 }
