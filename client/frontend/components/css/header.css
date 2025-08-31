@@ -24,7 +24,23 @@ body {
   justify-content: space-between;
   align-items: center;
   height: 64px;
+  flex-wrap: wrap;
 }
+@media (max-width: 700px) {
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 10px 0;
+    gap: 10px;
+  }
+  .nav-desktop {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    align-items: flex-start;
+  }
+}
+
 
 .brand {
   display: flex;

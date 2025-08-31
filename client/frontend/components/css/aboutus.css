@@ -86,6 +86,30 @@ p {
   width: 100%;
   box-sizing: border-box;
 }
+@media (max-width: 900px) {
+  .container {
+    padding: 0 1rem;
+  }
+}
+@media (max-width: 600px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+}
+@media (max-width: 700px) {
+  .about-section {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .about-content, .about-image {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+}
+
 
 /* Responsive container adjustments for better alignment */
 @media (min-width: 1441px) {

@@ -98,6 +98,13 @@ h1, h2, h3, p {
   max-width: 1200px;
   margin: 0 auto;
 }
+@media (max-width: 700px) {
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
 .card, .match-card, .result-card {
   background: white;
   border-radius: 12px;
