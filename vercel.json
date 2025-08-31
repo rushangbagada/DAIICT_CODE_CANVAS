@@ -1,0 +1,15 @@
+{
+  "buildCommand": "cd client/frontend && npm run build",
+  "outputDirectory": "client/frontend/dist",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://daiict-code-canvas-1.onrender.com/api/$1"
+    },
+    {
+      "source": "/ml-api/(.*)",
+      "destination": "https://daiict-code-canvas-1.onrender.com/ml-api/$1"
+    }
+  ]
+}

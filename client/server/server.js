@@ -58,7 +58,7 @@ app.get("/test", (req, res) => {
 });
 
 // Health check endpoint
-app.get("/", (req, res) => res.send("Green Hydrogen Platform API is running"));
+app.get("/", (req, res) => res.send("Green Hydrogen Platform API is running - Updated " + new Date().toISOString()));
 
 // ML model status endpoint
 app.get("/ml-api/ml/status", (req, res) => {
