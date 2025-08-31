@@ -5,7 +5,7 @@ const path = require('path');
 const fs = require('fs');
 
 // ML Backend Configuration
-const ML_BACKEND_URL = process.env.ML_BACKEND_URL || 'https://your-ml-backend-url.onrender.com' || 'http://localhost:8000';
+const ML_BACKEND_URL = process.env.ML_BACKEND_URL || 'http://localhost:8001';
 console.log('ML Backend URL configured:', ML_BACKEND_URL);
 
 // Test endpoint for debugging

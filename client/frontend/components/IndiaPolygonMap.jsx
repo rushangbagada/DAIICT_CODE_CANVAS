@@ -211,9 +211,9 @@ export default function IndiaPolygonMap() {
       console.log('ML API Response Status:', response.status);
 
       if (!response.ok) {
-        console.warn('ML API failed with status:', response.status);
-        // If ML API fails, return mock data for now
-        return generateFallbackMLData(polygonPoints);
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = errorData.message || errorData.error || `HTTP ${response.status}`;
+        throw new Error(`Backend API error: ${response.status} - ${errorMessage}`);
       }
 
       const result = await response.json();
@@ -221,50 +221,8 @@ export default function IndiaPolygonMap() {
       return result;
     } catch (error) {
       console.error('Backend API call failed:', error);
-      // Return fallback data if API completely fails
-      return generateFallbackMLData(polygonPoints);
+      throw new Error(`ML processing failed: ${error.message}`);
     }
-  };
-
-  // Generate fallback ML data when API is unavailable
-  const generateFallbackMLData = (polygonPoints) => {
-    console.log('Generating fallback ML data for', polygonPoints.length, 'points');
-    
-    const centerLat = polygonPoints.reduce((sum, p) => sum + p[0], 0) / polygonPoints.length;
-    const centerLng = polygonPoints.reduce((sum, p) => sum + p[1], 0) / polygonPoints.length;
-    
-    // Generate some sample sites around the polygon center
-    const sampleSites = [];
-    for (let i = 0; i < 5; i++) {
-      const offsetLat = (Math.random() - 0.5) * 2; // ±1 degree
-      const offsetLng = (Math.random() - 0.5) * 2; // ±1 degree
-      
-      sampleSites.push({
-        lat: centerLat + offsetLat,
-        lon: centerLng + offsetLng,
-        capacity: Math.round(Math.random() * 500 + 100), // 100-600 MW
-        distance_to_renewable: Math.round(Math.random() * 50 + 5), // 5-55 km
-        demand_index: Math.round(Math.random() * 100 + 1), // 1-100
-        water_availability: Math.round(Math.random() * 100 + 1), // 1-100
-        land_cost: Math.round(Math.random() * 100000 + 10000), // 10k-110k per acre
-        predicted_score: Math.round((Math.random() * 0.4 + 0.6) * 100) / 100, // 0.6-1.0
-        site_id: `DEMO_SITE_${i + 1}`
-      });
-    }
-
-    return {
-      success: true,
-      message: "Demo data - ML service temporarily unavailable",
-      recommended_sites: sampleSites,
-      total_sites_found: sampleSites.length,
-      polygon_analysis: {
-        area_km2: (polygonPoints.length * 100).toString(),
-        point_count: polygonPoints.length,
-        status: "demo_mode"
-      },
-      polygon_points_received: polygonPoints.map(point => ({ lat: point[0], lng: point[1] })),
-      demo_mode: true
-    };
   };
 
   // Function to run ML analysis
@@ -299,9 +257,7 @@ export default function IndiaPolygonMap() {
       
       // Success message based on results
       let successMessage = `ML Analysis completed successfully!`;
-      if (mlResult.demo_mode) {
-        successMessage = `⚠️ Demo Mode: ML service unavailable, showing sample data.`;
-      } else if (mlResult.total_sites_found > 0) {
+      if (mlResult.total_sites_found > 0) {
         successMessage += ` Found ${mlResult.total_sites_found} hydrogen sites.`;
       } else if (mlResult.message) {
         successMessage += ` ${mlResult.message}`;
