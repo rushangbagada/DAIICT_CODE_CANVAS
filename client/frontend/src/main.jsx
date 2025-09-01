@@ -19,7 +19,7 @@ import HydrogenPlantsMap from '../components/HydrogenPlantsMap'
 import MLResultsPage from '../components/MLResultsPage'
 import AdminDashboard from '../components/AdminDashboard'
 import PowerPlantPDFGenerator from '../components/PowerPlantPDFGenerator'
-import ThreeDModels from '../components/ThreeDModels'
+import ThreeDModels from '../components/threeDmodels'
 
 // Single source of truth for all routing - using React Router DOM v6+ createBrowserRouter
 const router = createBrowserRouter([
