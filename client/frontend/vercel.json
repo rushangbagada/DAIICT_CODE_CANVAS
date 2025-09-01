@@ -7,6 +7,10 @@
     {
       "source": "/ml-api/(.*)",
       "destination": "https://daiict-code-canvas-1.onrender.com/ml-api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
