@@ -1,3 +1,24 @@
+# After FastAPI app is created
+from fastapi import APIRouter
+
+debug_router = APIRouter()
+
+@debug_router.get("/debug-env")
+async def debug_env():
+    import os
+    return {
+        "env": {
+            "API_KEY": os.environ.get("ML_API_KEY", "NOT SET"),
+            "HOST": os.environ.get("HOST", "NOT SET"),
+            "PORT": os.environ.get("PORT", "NOT SET"),
+            "NODE_ENV": os.environ.get("NODE_ENV", "NOT SET")
+        }
+    }
+
+app.include_router(debug_router)
+
+# After FastAPI app is created
+app.include_router(debug_router)
 """
 Main FastAPI application for Hydrogen Site Recommender
 """
