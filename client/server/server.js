@@ -1,22 +1,3 @@
-// ...existing code...
-
-// Health check endpoint for keep-alive (must be after app is initialized)
-app.get("/health", (req, res) => {
-  res.json({ status: "healthy", timestamp: new Date().toISOString() });
-});
-
-// Temporary debug endpoint to check environment variables
-app.get("/debug-env", (req, res) => {
-  res.json({
-    env: {
-      ML_BACKEND_URL: process.env.ML_BACKEND_URL,
-      ML_API_KEY: process.env.ML_API_KEY ? 'SET' : 'NOT SET',
-      NODE_ENV: process.env.NODE_ENV,
-      PORT: process.env.PORT
-    },
-    timestamp: new Date().toISOString()
-  });
-});
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
@@ -43,6 +24,23 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+// ...existing code...
+// Health and debug endpoints (must be after app is initialized)
+app.get("/health", (req, res) => {
+  res.json({ status: "healthy", timestamp: new Date().toISOString() });
+});
+
+app.get("/debug-env", (req, res) => {
+  res.json({
+    env: {
+      ML_BACKEND_URL: process.env.ML_BACKEND_URL,
+      ML_API_KEY: process.env.ML_API_KEY ? 'SET' : 'NOT SET',
+      NODE_ENV: process.env.NODE_ENV,
+      PORT: process.env.PORT
+    },
+    timestamp: new Date().toISOString()
+  });
+});
 
 // Debug middleware - log all requests
 app.use((req, res, next) => {
