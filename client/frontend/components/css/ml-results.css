@@ -28,7 +28,7 @@
 .ml-results-page {
   min-height: 100vh;
   background: var(--gradient-dark);
-  padding: 20px;
+  padding: 32px;
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: var(--white);
 }

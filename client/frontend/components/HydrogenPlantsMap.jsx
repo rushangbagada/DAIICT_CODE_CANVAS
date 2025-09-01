@@ -313,7 +313,7 @@ const HydrogenPlantsMap = () => {
   };
 
   return (
-    <div className="hydrogen-plants-map-page">
+  <div className="hydrogen-plants-map-page" style={{ padding: 32 }}>
       <EnhancedNavbar />
       
       {/* Header Section */}

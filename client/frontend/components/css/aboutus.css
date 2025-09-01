@@ -511,6 +511,7 @@ p {
   letter-spacing: -0.03em;
   text-shadow: 0 0 30px rgba(0, 215, 100, 0.3);
   word-wrap: break-word;
+  text-align: center;
 }
 
 .hero-title .highlight {

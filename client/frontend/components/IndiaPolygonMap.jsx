@@ -431,7 +431,7 @@ export default function IndiaPolygonMap() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: 20, maxWidth: '1200px', margin: '0 auto' }}>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: 32, maxWidth: '1200px', margin: '0 auto' }}>
       {/* Header Section */}
       <div style={headerStyle}>
         <div>

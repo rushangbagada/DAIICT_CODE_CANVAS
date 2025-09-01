@@ -166,7 +166,7 @@ const ChatBot = () => {
   };
 
   return (
-    <div className={`chatbot-page-container ${darkMode ? 'dark' : ''}`}>
+  <div className={`chatbot-page-container ${darkMode ? 'dark' : ''}`} style={{ overflow: 'hidden' }}>
       <div className="chatbot-page-header">
         <div className="chatbot-header-content">
           <div className="chatbot-title-row">

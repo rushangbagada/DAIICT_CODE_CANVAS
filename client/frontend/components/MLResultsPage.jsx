@@ -10,8 +10,6 @@ const MLResultsPage = () => {
   const [selectedSite, setSelectedSite] = useState(null);
   const [sortBy, setSortBy] = useState('predicted_score');
   const [sortOrder, setSortOrder] = useState('desc');
-  const [filterCity, setFilterCity] = useState('');
-  const [filterState, setFilterState] = useState('');
 
   useEffect(() => {
     // Get ML results from location state or localStorage
@@ -57,38 +55,22 @@ const MLResultsPage = () => {
   };
 
   const getSortedAndFilteredSites = () => {
-    let filtered = [...recommendedSites];
-
-    // Apply filters
-    if (filterCity) {
-      filtered = filtered.filter(site => 
-        site.city?.toLowerCase().includes(filterCity.toLowerCase())
-      );
-    }
-    if (filterState) {
-      filtered = filtered.filter(site => 
-        site.state?.toLowerCase().includes(filterState.toLowerCase())
-      );
-    }
-
-    // Apply sorting
-    filtered.sort((a, b) => {
+    // Only apply sorting, no filtering
+    let sorted = [...recommendedSites];
+    sorted.sort((a, b) => {
       let aVal = a[sortBy] || 0;
       let bVal = b[sortBy] || 0;
-
       if (typeof aVal === 'string') {
         aVal = aVal.toLowerCase();
         bVal = bVal.toLowerCase();
       }
-
       if (sortOrder === 'asc') {
         return aVal > bVal ? 1 : -1;
       } else {
         return aVal < bVal ? 1 : -1;
       }
     });
-
-    return filtered;
+    return sorted;
   };
 
   const getScoreColor = (score) => {
@@ -134,8 +116,6 @@ const MLResultsPage = () => {
   }
 
   const sortedSites = getSortedAndFilteredSites();
-  const uniqueCities = [...new Set(recommendedSites.map(site => site.city).filter(Boolean))];
-  const uniqueStates = [...new Set(recommendedSites.map(site => site.state).filter(Boolean))];
 
   return (
     <div className="ml-results-page">
@@ -149,12 +129,7 @@ const MLResultsPage = () => {
           <span className="stat-item">
             📍 {mlResults.total_sites_found || 0} Sites Found
           </span>
-          <span className="stat-item">
-            🕒 {mlResults.processing_time_ms ? `${mlResults.processing_time_ms.toFixed(1)}ms` : 'N/A'}
-          </span>
-          <span className="stat-item">
-            🎯 Model v{mlResults.model_version || '1.0.0'}
-          </span>
+          {/* Removed 🕒 N/A and 🎯 Model v1.0.0 from header as requested */}
         </div>
       </div>
 
@@ -181,36 +156,8 @@ const MLResultsPage = () => {
         </div>
       </div>
 
-      {/* Filters and Sorting */}
+      {/* Sorting Only */}
       <div className="controls-section">
-        <div className="filters">
-          <div className="filter-group">
-            <label>Filter by City:</label>
-            <select 
-              value={filterCity} 
-              onChange={(e) => setFilterCity(e.target.value)}
-              className="filter-select"
-            >
-              <option value="">All Cities</option>
-              {uniqueCities.map(city => (
-                <option key={city} value={city}>{city}</option>
-              ))}
-            </select>
-          </div>
-          <div className="filter-group">
-            <label>Filter by State:</label>
-            <select 
-              value={filterState} 
-              onChange={(e) => setFilterState(e.target.value)}
-              className="filter-select"
-            >
-              <option value="">All States</option>
-              {uniqueStates.map(state => (
-                <option key={state} value={state}>{state}</option>
-              ))}
-            </select>
-          </div>
-        </div>
         <div className="sorting">
           <label>Sort by:</label>
           <select 

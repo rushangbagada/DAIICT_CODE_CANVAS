@@ -92,11 +92,55 @@ router.post('/predict', async (req, res) => {
       });
     }
 
+    // Map status to user-friendly label
+    const statusMap = {
+      sites_found: 'Sites Found',
+      no_sites_found: 'No Sites Found',
+      error: 'Error',
+    };
+    const userStatus = statusMap[mlResult?.polygon_analysis?.status] || mlResult?.polygon_analysis?.status || '';
+
+    // Improved message
+    const userMessage = `Successfully analyzed your selected area with ${pointCount} points. Recommendations are ready!`;
+
+
+    // Format site_id and generate a comment for each recommended site
+    let recommendedSites = (mlResult.recommended_sites || []).map((site, idx) => {
+      let newId = site.site_id;
+      // If site_id is missing or not in 'site_XXXX' format, generate it
+      if (!newId || !/^site_\d{4}$/.test(newId)) {
+        newId = `site_${(idx + 1).toString().padStart(4, '0')}`;
+      }
+      // Generate a comment based on predicted_score
+      let comment = '';
+      const score = site.predicted_score;
+      if (score >= 0.85) {
+        comment = '🌟 Excellent site: Highly recommended for hydrogen production.';
+      } else if (score >= 0.7) {
+        comment = '✅ Good site: Strong potential for hydrogen production.';
+      } else if (score >= 0.5) {
+        comment = '⚠️ Fair site: Consider with caution, may need further review.';
+      } else {
+        comment = '❌ Poor site: Not recommended based on current analysis.';
+      }
+      return { ...site, site_id: newId, score_comment: comment };
+    });
+
+    // Clone mlResult and override status/message/sites for frontend
+    const resultForFrontend = {
+      ...mlResult,
+      recommended_sites: recommendedSites,
+      polygon_analysis: {
+        ...mlResult.polygon_analysis,
+        status: userStatus,
+      },
+    };
+
     res.json({
       success: true,
-      ...mlResult,
+      ...resultForFrontend,
       inputShape: coordinates.length,
-      message: `Successfully processed polygon "${polygonName}" with ${pointCount} points`,
+      message: userMessage,
       timestamp: new Date().toISOString()
     });
 
