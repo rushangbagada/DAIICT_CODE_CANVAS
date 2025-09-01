@@ -1,7 +1,10 @@
-// Health check endpoint for keep-alive
+// ...existing code...
+
+// Health check endpoint for keep-alive (must be after app is initialized)
 app.get("/health", (req, res) => {
   res.json({ status: "healthy", timestamp: new Date().toISOString() });
 });
+
 // Temporary debug endpoint to check environment variables
 app.get("/debug-env", (req, res) => {
   res.json({
