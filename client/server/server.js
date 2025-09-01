@@ -1,3 +1,15 @@
+// Temporary debug endpoint to check environment variables
+app.get("/debug-env", (req, res) => {
+  res.json({
+    env: {
+      ML_BACKEND_URL: process.env.ML_BACKEND_URL,
+      ML_API_KEY: process.env.ML_API_KEY ? 'SET' : 'NOT SET',
+      NODE_ENV: process.env.NODE_ENV,
+      PORT: process.env.PORT
+    },
+    timestamp: new Date().toISOString()
+  });
+});
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
@@ -53,7 +65,13 @@ app.get("/test", (req, res) => {
       "/api/hydrogen-plants/*",
       "/api/email/*",
       "/ml-api/ml/*"
-    ]
+    ],
+    env: {
+      ML_BACKEND_URL: process.env.ML_BACKEND_URL,
+      ML_API_KEY: process.env.ML_API_KEY ? 'SET' : 'NOT SET',
+      NODE_ENV: process.env.NODE_ENV,
+      PORT: process.env.PORT
+    }
   });
 });
 
