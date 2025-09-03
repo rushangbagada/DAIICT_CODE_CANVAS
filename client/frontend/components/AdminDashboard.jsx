@@ -90,11 +90,13 @@ const AdminDashboard = () => {
           await plantsActions.fetchPlants();
         }
         
-        // Fetch dashboard stats
-        try {
-          await adminActions.fetchDashboardStats();
-        } catch (err) {
-          console.warn('Failed to fetch dashboard stats:', err);
+        // Fetch dashboard stats only once
+        if (!dashboardStats) {
+          try {
+            await adminActions.fetchDashboardStats();
+          } catch (err) {
+            console.warn('Failed to fetch dashboard stats:', err);
+          }
         }
         
         setLocalLoading(false);
@@ -108,7 +110,7 @@ const AdminDashboard = () => {
     if (isAdmin()) {
       fetchData();
     }
-  }, [isAdmin, canManageUsers, canManagePlants, users.length, plants.length, adminActions, plantsActions, addNotification]);
+  }, [isAdmin]); // Removed problematic dependencies
 
   // GSAP animations
   useEffect(() => {
