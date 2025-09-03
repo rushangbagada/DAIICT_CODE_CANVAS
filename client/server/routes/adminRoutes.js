@@ -24,6 +24,37 @@ router.put('/users/:id', protect, adminOnly, userAdminController.updateUser);
 // DELETE /admin/users/:id - Delete user (Admin only)
 router.delete('/users/:id', protect, adminOnly, userAdminController.deleteUser);
 
+// GET /admin/dashboard/statistics - Get dashboard statistics (Admin only)
+router.get('/dashboard/statistics', protect, adminOnly, async (req, res) => {
+  try {
+    // You can customize these statistics based on your needs
+    const User = require('../models/User'); // Adjust path if needed
+    
+    const totalUsers = await User.countDocuments();
+    const activeUsers = await User.countDocuments({ isActive: true });
+    const verifiedUsers = await User.countDocuments({ isVerified: true });
+    const adminUsers = await User.countDocuments({ isAdmin: true });
+    
+    res.json({
+      success: true,
+      data: {
+        totalUsers,
+        activeUsers,
+        verifiedUsers,
+        adminUsers,
+        timestamp: new Date().toISOString()
+      }
+    });
+  } catch (error) {
+    console.error('Dashboard statistics error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch dashboard statistics',
+      error: error.message
+    });
+  }
+});
+
 // DEBUG: Test admin access (Admin only)
 router.get('/test-access', protect, adminOnly, (req, res) => {
   res.json({
